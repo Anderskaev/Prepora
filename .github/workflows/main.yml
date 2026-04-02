@@ -5,9 +5,9 @@ on:
 
 jobs:
   build-and-deploy:
-   runs-on: uubuntu-latest
+   runs-on: ubuntu-latest
    steps:
-     - name: Check
+     - name: Checkout
        uses: actions/checkout@v4
 
      - name: Setup Node.js
