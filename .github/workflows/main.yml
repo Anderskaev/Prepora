@@ -20,7 +20,7 @@ jobs:
        run: npm ci
 
      - name: Build
-       run: npm run build --base-href=/prepora/
+       run: npm run build --base-href=/prepora
 
      - name: Deploy
        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
