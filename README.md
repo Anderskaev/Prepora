@@ -49,7 +49,7 @@ Zero Knowledge architecture: all data is encrypted client-side with AES-256 befo
 | Layer | Technology |
 |---|---|
 | Frontend | Angular 21, TypeScript, SCSS |
-| PWA | Angular Service Worker (`ngsw`) |
+| PWA | Angular Service Worker |
 | CI/CD | GitHub Actions |
 | Hosting | prepora.ru |
  
@@ -57,22 +57,9 @@ Zero Knowledge architecture: all data is encrypted client-side with AES-256 befo
  
 ## Architecture notes
  
-- Standalone Angular components throughout (no NgModules)
+- Standalone Angular components throughout
 - Client-side encryption before any server communication
 - PWA with full offline support via service worker caching strategy
-- Routing with lazy loading for performance
- 
----
- 
-## Pricing model
- 
-| Plan | Price | Key limits |
-|---|---|---|
-| Free | 0 ₽ | 3 scenarios, local vault only |
-| Personal | 1500 ₽ one-time | All 13 scenarios, sync, backup |
-| Family | 2000 ₽ one-time | Everything + shared family vault |
- 
-No subscriptions. Pay once, use forever.
  
 ---
  
