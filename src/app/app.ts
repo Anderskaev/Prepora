@@ -3,9 +3,9 @@ import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 //translation
 import {TranslatePipe} from "@ngx-translate/core";
 import {TranslateService, _} from "@ngx-translate/core";
-import {APP_BASE_HREF} from '@angular/common';
 
 import { TabsModule } from 'primeng/tabs';
+import { environment } from '../environments/dev.environment';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +27,7 @@ export class App {
 
 
 
-    console.log('Base href:', inject(APP_BASE_HREF));
+    console.log(environment);
 
     this.translate.addLangs(['ru', 'en']);
     this.translate.setFallbackLang('ru');

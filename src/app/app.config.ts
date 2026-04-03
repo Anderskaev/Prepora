@@ -1,8 +1,7 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, isDevMode } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, isDevMode, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import {APP_BASE_HREF} from '@angular/common';
 
 //translation
 import {provideTranslateService, provideTranslateLoader} from "@ngx-translate/core";
@@ -14,11 +13,10 @@ import { provideServiceWorker } from '@angular/service-worker';
 //theming
 import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './mypreset';
-import { environment } from '../environments/dev.environment';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    {provide: APP_BASE_HREF, useValue: environment.base_href },
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes), provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
@@ -36,7 +34,7 @@ export const appConfig: ApplicationConfig = {
     
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: environment.base_href+'/langs/',
+        prefix: 'langs/',
         suffix: '.json'
       }),
       fallbackLang: 'ru',
