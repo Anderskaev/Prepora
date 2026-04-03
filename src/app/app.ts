@@ -25,10 +25,6 @@ export class App {
     const element = document.querySelector('html');
     element!.classList.toggle('my-app-dark');
 
-
-
-    console.log(environment);
-
     this.translate.addLangs(['ru', 'en']);
     this.translate.setFallbackLang('ru');
 
