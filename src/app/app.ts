@@ -3,7 +3,7 @@ import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 //translation
 import {TranslatePipe} from "@ngx-translate/core";
 import {TranslateService, _} from "@ngx-translate/core";
-
+import {APP_BASE_HREF} from '@angular/common';
 
 import { TabsModule } from 'primeng/tabs';
 
@@ -24,6 +24,10 @@ export class App {
   constructor() {
     const element = document.querySelector('html');
     element!.classList.toggle('my-app-dark');
+
+
+
+    console.log('Base href:', inject(APP_BASE_HREF));
 
     this.translate.addLangs(['ru', 'en']);
     this.translate.setFallbackLang('ru');
