@@ -5,7 +5,7 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {TranslateService, _} from "@ngx-translate/core";
 
 import { TabsModule } from 'primeng/tabs';
-import { environment } from '../environments/dev.environment';
+
 
 @Component({
   selector: 'app-root',

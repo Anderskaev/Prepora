@@ -14,6 +14,8 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './mypreset';
 
+import { environment } from '../environments/dev.environment';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,7 +36,7 @@ export const appConfig: ApplicationConfig = {
     
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: 'langs/',
+        prefix: environment.langHref,
         suffix: '.json'
       }),
       fallbackLang: 'ru',
