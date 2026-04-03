@@ -8,7 +8,8 @@
 ![AES-256](https://img.shields.io/badge/AES--256_encryption-2E7D32?style=flat&logo=letsencrypt&logoColor=white)
  
 🌐 **Live:** [prepora.ru](https://prepora.ru)
-    **APP:** [prepora.ru/prepora](https://prepora.ru/prepora)
+
+:gear: **APP:** [prepora.ru/prepora](https://prepora.ru/prepora)
  
 ---
  
