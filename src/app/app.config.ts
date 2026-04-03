@@ -1,11 +1,19 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
-
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
+
+//translation
+import {provideTranslateService, provideTranslateLoader} from "@ngx-translate/core";
+import {provideTranslateHttpLoader} from "@ngx-translate/http-loader";
+
+//PWA
 import { provideServiceWorker } from '@angular/service-worker';
+
+//theming
+import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './mypreset';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +29,17 @@ export const appConfig: ApplicationConfig = {
                       darkModeSelector: '.my-app-dark'
                     }                
             }
-        }) 
+    }),
+    provideHttpClient(),
+    
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/langs/',
+        suffix: '.json'
+      }),
+      fallbackLang: 'ru',
+      lang: 'ru'
+    })
+
   ]
 };

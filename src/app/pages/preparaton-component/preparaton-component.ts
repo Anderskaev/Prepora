@@ -4,11 +4,13 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {TranslateService, _} from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-control-component',
+  selector: 'app-preparaton-component',
   imports: [TranslatePipe],
-  templateUrl: './control-component.html',
-  styleUrl: './control-component.scss',
+  templateUrl: './preparaton-component.html',
+  styleUrl: './preparaton-component.scss',
 })
-export class ControlComponent {
+
+export class PreparatonComponent {
   private translate = inject(TranslateService);
+
 }

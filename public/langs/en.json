@@ -1,0 +1,38 @@
+	{
+	"app": {
+		"name": "Preport",
+		"title": "Family anti-crisis plan",
+		"priority": {
+			"CRITICAL": "Critical",
+			"IMPORTANT": "Important",
+			"STANDARD": "Standard"
+		},
+		"repeat": {
+			"MONTHLY": "Monthly",
+			"NONE": "Never",
+			"YEARLY": "Yearly"
+		},
+		"tabs": {
+			"control": {
+				"name":"Control",
+				"title": "CONTROL LIST",
+				"subtitle": "Maintaining the plan in an up-to-date state"
+			},
+			"preparation": {
+				"name":"Preparation",
+				"title": "PREPARATION IN ADVANCE",
+				"subtitle": "What to do before the crisis hits"
+			},
+			"scenarios": {
+				"name":"Scenarios",
+				"title": "SCENARIOS",
+				"subtitle": "Step-by-step instructions for various crisis scenarios"
+			},
+			"vault": {
+				"name":"Vault",
+				"title": "VAULT",
+				"subtitle": "Storing important information"
+			}
+		}
+	}
+}

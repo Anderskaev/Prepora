@@ -4,11 +4,11 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {TranslateService, _} from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-control-component',
+  selector: 'app-vault-component',
   imports: [TranslatePipe],
-  templateUrl: './control-component.html',
-  styleUrl: './control-component.scss',
+  templateUrl: './vault-component.html',
+  styleUrl: './vault-component.scss',
 })
-export class ControlComponent {
+export class VaultComponent {
   private translate = inject(TranslateService);
 }
