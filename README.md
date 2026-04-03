@@ -1,59 +1,88 @@
 # Prepora
+ 
+**Personal crisis preparedness tool — plan ahead, protect your family.**
+ 
+![Angular](https://img.shields.io/badge/Angular_21-DD0031?style=flat&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=flat&logo=pwa&logoColor=white)
+![AES-256](https://img.shields.io/badge/AES--256_encryption-2E7D32?style=flat&logo=letsencrypt&logoColor=white)
+ 
+🌐 **Live:** [prepora.ru](https://prepora.ru)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+:gear: **APP:** [prepora.ru/prepora](https://prepora.ru/prepora)
+ 
+---
+ 
+## What is Prepora?
+ 
+Prepora helps individuals and families prepare for life crises before they happen — job loss, account freezing, losing a breadwinner, criminal prosecution, debt, and more.
+ 
+The app provides structured preparation scenarios, a secure local document vault, and reminders to keep the plan up to date. Think of it as a personal emergency protocol, not a generic checklist.
+ 
+**13 built-in scenarios** covering the most common crisis types, plus the ability to build custom ones from scratch.
+ 
+---
+ 
+## Key features
+ 
+- **Scenario-based preparation** — structured templates for each crisis type, adaptable to personal situations
+- **Encrypted local vault** — store documents, contacts, and account access info; everything is encrypted on the device before any sync
+- **Offline-first** — full functionality without internet (PWA with service worker)
+- **Reminder system** — periodic prompts to review and update the plan
+- **Knowledge base** — articles from lawyers and financial advisors, free for all tiers
+- **Family access** — shared encrypted storage for the Family plan
+ 
+---
+ 
+## Privacy & security
+ 
+Zero Knowledge architecture: all data is encrypted client-side with AES-256 before it reaches the server. The server stores only encrypted blobs — it is technically impossible to read user content without the user's key.
+ 
+- Encryption key never leaves the device
+- No ads, no tracking
+- One-time payment — no subscriptions, no recurring access to user data
+ 
+---
+ 
+## Tech stack
+ 
+| Layer | Technology |
+|---|---|
+| Frontend | Angular 21, TypeScript, SCSS |
+| PWA | Angular Service Worker (`ngsw`) |
+| CI/CD | GitHub Actions |
+| Hosting | prepora.ru |
+ 
+---
+ 
+## Architecture notes
+ 
+- Standalone Angular components throughout (no NgModules)
+- Client-side encryption before any server communication
+- PWA with full offline support via service worker caching strategy
+- Routing with lazy loading for performance
+ 
+---
+ 
+## Pricing model
+ 
+| Plan | Price | Key limits |
+|---|---|---|
+| Free | 0 ₽ | 3 scenarios, local vault only |
+| Personal | 1500 ₽ one-time | All 13 scenarios, sync, backup |
+| Family | 2000 ₽ one-time | Everything + shared family vault |
+ 
+No subscriptions. Pay once, use forever.
+ 
+---
+ 
+## Status
+ 
+Version **1.0.1** — live and accepting early users. Active development.
+ 
+---
+ 
+## Contact
+ 
+- 📧 [hello@prepora.ru](mailto:hello@prepora.ru)
+- 💬 Telegram: [t.me/pp_crizis](https://t.me/pp_crizis)
