@@ -1,20 +1,16 @@
-<h1>{{ 'app.name' | translate }}</h1>
-<p>{{ 'app.title' | translate }}</p>
-
-<div class="card">
-            <p-tabs [value]="''">
-                <p-tablist>
-                    @for (tab of tabs; track tab.route) {
-                        <p-tab [routerLink]="tab.route" [value]="tab.route" class="flex items-center !gap-2 text-inherit">
-                            <i [class]="tab.icon"></i>
-                            <span>{{ tab.label }}</span>
-                        </p-tab>
-                    }
-                </p-tablist>
-            </p-tabs>
-            <router-outlet></router-outlet>
+    @switch (state()) {
+      @case ('loading') {
+        <div class="loading-screen">
+          <span>Загрузка...</span>
         </div>
-
-<!--<router-outlet /> -->
-
-
+      }
+      @case ('setup') {
+        <app-setup-component (completed)="onSetupComplete()" />
+      }
+      @case ('unlock') {
+        <app-unlock-component (unlocked)="onUnlocked()" />
+      }
+      @case ('ready') {
+        <app-main-component />
+      }
+    }

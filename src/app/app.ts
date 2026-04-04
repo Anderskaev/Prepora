@@ -1,48 +1,66 @@
-import { Component, signal, inject } from '@angular/core';
-import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
-//translation
-import {TranslatePipe} from "@ngx-translate/core";
-import {TranslateService, _} from "@ngx-translate/core";
+import { Component, signal } from '@angular/core';
+import { StorageService } from './services/storage-service';
+import { AuthService } from './services/auth-service';
+import { MainComponent } from "./pages/main-component/main-component";
+import { UnlockComponent } from "./pages/unlock-component/unlock-component";
+import { SetupComponent } from "./pages/setup-component/setup-component";
 
-import { TabsModule } from 'primeng/tabs';
-
+type AppState = 'loading' | 'setup' | 'unlock' | 'ready';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TabsModule, RouterLinkWithHref, TranslatePipe],
+  imports: [MainComponent, UnlockComponent, SetupComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 
 
 export class App {
-  private translate = inject(TranslateService);
-  activeTab: any;
-  tabs: any[] = [];
-  protected readonly title = signal('Prepora - Семейный антикризисный план');
+  state = signal<AppState>('loading');
 
-  constructor() {
-    const element = document.querySelector('html');
-    element!.classList.toggle('my-app-dark');
+  constructor(
+    private storage: StorageService,
+    private auth: AuthService
+  ) {}  
 
-    this.translate.addLangs(['ru', 'en']);
-    this.translate.setFallbackLang('ru');
+  async ngOnInit() {
+    // Если уже разблокировано (не должно быть при старте, но на всякий случай)
+    if (this.auth.isUnlocked()) {
+      this.state.set('ready');
+      return;
+    }
 
+    // Проверяем есть ли данные в IndexedDB
+    const hasData = await this.storage.hasData();
+    this.state.set(hasData ? 'unlock' : 'setup');
 
-    this.translate.use('en').subscribe(() => {
-      this.translate.get(['app.tabs'])
-        .subscribe((tabs: any) => {
-            this.tabs = [
-                { label: tabs['app.tabs'].preparation.name, icon: 'pi pi-shield', route: ''},
-                { label: tabs['app.tabs'].scenarios.name, icon: 'pi pi-sparkles', route: '/scenarios'},
-                { label: tabs['app.tabs'].vault.name, icon: 'pi pi-folder-open', route: '/vault'},                
-                { label: tabs['app.tabs'].control.name, icon: 'pi pi-calendar-clock', route: '/control'},
-            ];          
+    // Слушаем Page Visibility для автоблокировки
+    this.setupVisibilityListener();
+  }
+  
+    onSetupComplete() {
+    this.state.set('ready');
+  }
 
-        }); //end translate.get.subscribe
-    }); //end translate.use.subscribe
+  onUnlocked() {
+    this.state.set('ready');
+  }
 
+  private hiddenAt: number | null = null;
+  private readonly LOCK_TIMEOUT = 5 * 60 * 1000;
 
+    private setupVisibilityListener() {
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.hiddenAt = Date.now();
+      } else {
+        if (this.hiddenAt && Date.now() - this.hiddenAt > this.LOCK_TIMEOUT) {
+          this.auth.lock();
+          this.state.set('unlock');
+        }
+        this.hiddenAt = null;
+      }
+    });
+  }
 
-  } //end constructor
 }

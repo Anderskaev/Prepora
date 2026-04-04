@@ -1,0 +1,21 @@
+    <div class="setup-screen">
+      <h1>Добро пожаловать в Prepora</h1>
+      <p>Придумайте мастер-пароль для защиты данных</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <input formControlName="password"
+               type="password"
+               placeholder="Мастер-пароль (минимум 8 символов)" />
+        <input formControlName="confirm"
+               type="password"
+               placeholder="Повторите пароль" />
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <button type="submit" [disabled]="loading()">
+          {{ loading() ? 'Создание...' : 'Создать' }}
+        </button>
+      </form>
+    </div>

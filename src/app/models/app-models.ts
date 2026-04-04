@@ -1,5 +1,5 @@
 // ── Корневой объект (весь blob) ────────────────────────
-interface AppData {
+export interface AppData {
     version: number; // версия схемы
     updatedAt: string; // ISO timestamp
     scenarios: Scenario[];
@@ -10,7 +10,7 @@ interface AppData {
 }
 
 // ── Сценарий ─────────────────────────────────────────
-interface Scenario {
+export interface Scenario {
     id: string;
     title: string;
     icon: string;
@@ -22,41 +22,41 @@ interface Scenario {
     updatedAt: string;
 }
 
-interface ScenarioStep {
+export interface ScenarioStep {
     phase: string; // название фазы
     items: string[]; // шаги внутри фазы
 }
 
 // ── Хранилище ────────────────────────────────────────
-interface VaultItem {
+export interface VaultItem {
     id: string;
     title: string;
     category: string;
     fields: VaultField[];
     createdAt: string;
 }
-interface VaultField {
+export interface VaultField {
     label: string;
     value: string;
     sensitive: boolean; // скрывать звёздочками
 }
 
 // ── Напоминания ──────────────────────────────────────
-interface Reminder { // внутри AppData (зашифровано)
+export interface Reminder { // внутри AppData (зашифровано)
     id: string;
     title: string;
     date: string;
     repeat: "NONE" | "MONTHLY" | "YEARLY";
     linkedId?: string; // ссылка на сценарий/item
 }
-interface ReminderSchedule { // IndexedDB (НЕ зашифровано)
+export interface ReminderSchedule { // IndexedDB (НЕ зашифровано)
     id: string; // совпадает с Reminder.id
     scheduledAt: string; // когда показать уведомление
     repeat: "NONE" | "MONTHLY" | "YEARLY";
 }
 
 // ── Категория ────────────────────────────────────────
-interface Category {
+export interface Category {
     id: string;
     label: string;
     icon: string;
