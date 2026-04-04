@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
                 preset: MyPreset,
                    options: {
                       //darkModeSelector: '.my-app-dark'
-                     darkModeSelector: false;
+                     darkModeSelector: false
                     }                
             }
     }),
