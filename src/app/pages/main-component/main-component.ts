@@ -19,8 +19,6 @@ export class MainComponent {
   protected readonly title = signal('Prepora - Семейный антикризисный план');
 
   constructor() {
-    const element = document.querySelector('html');
-    element!.classList.toggle('my-app-dark');
 
     this.translate.addLangs(['ru', 'en']);
     this.translate.setFallbackLang('ru');

@@ -24,6 +24,7 @@ export class App {
   ) {}  
 
   async ngOnInit() {
+    //document.documentElement.classList.add('my-app-dark');
     // Если уже разблокировано (не должно быть при старте, но на всякий случай)
     if (this.auth.isUnlocked()) {
       this.state.set('ready');
