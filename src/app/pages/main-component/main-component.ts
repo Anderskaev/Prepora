@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, Output, EventEmitter, Input } from '@angular/core';
 import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 //translation
 import {TranslatePipe} from "@ngx-translate/core";
@@ -13,8 +13,9 @@ import { TabsModule } from 'primeng/tabs';
   styleUrl: './main-component.scss',
 })
 export class MainComponent {
+  @Input() activeTab: any;
+  
   private translate = inject(TranslateService);
-  activeTab: any;
   tabs: any[] = [];
   protected readonly title = signal('Prepora - Семейный антикризисный план');
 
@@ -37,7 +38,7 @@ export class MainComponent {
         }); //end translate.get.subscribe
     }); //end translate.use.subscribe
 
-
-
   } //end constructor
+
+
 }

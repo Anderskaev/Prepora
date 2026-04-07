@@ -2,7 +2,7 @@
 <p>{{ 'app.title' | translate }}</p>
 
 <div class="card">
-            <p-tabs [value]="''">
+            <p-tabs [(value)]="activeTab" >
                 <p-tablist>
                     @for (tab of tabs; track tab.route) {
                         <p-tab [routerLink]="tab.route" [value]="tab.route" class="flex items-center !gap-2 text-inherit">
@@ -14,5 +14,6 @@
             </p-tabs>
             <router-outlet></router-outlet>
         </div>
+
 
 <!--<router-outlet /> -->

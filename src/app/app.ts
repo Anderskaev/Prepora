@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { StorageService } from './services/storage-service';
 import { AuthService } from './services/auth-service';
 import { MainComponent } from "./pages/main-component/main-component";
 import { UnlockComponent } from "./pages/unlock-component/unlock-component";
 import { SetupComponent } from "./pages/setup-component/setup-component";
+import { Router } from '@angular/router';
 
 type AppState = 'loading' | 'setup' | 'unlock' | 'ready';
 
@@ -17,14 +18,26 @@ type AppState = 'loading' | 'setup' | 'unlock' | 'ready';
 
 export class App {
   state = signal<AppState>('loading');
+  activeTab: any = "";
 
   constructor(
     private storage: StorageService,
-    private auth: AuthService
-  ) {}  
+    private auth: AuthService,
+    private router: Router
+  ) {  }  
+
+  ngAfterContentChecked() {
+    let currentUrl = this.router.url;
+    if (currentUrl !== '/') {
+      this.activeTab = "/" + currentUrl.split('/')[1] || ''; // Получаем первый сегмент пути для определения активной вкладки
+    } else {
+      this.activeTab = '';
+    }
+  }
 
   async ngOnInit() {
     //document.documentElement.classList.add('my-app-dark');
+    this.activeTab = this.router.url; // Инициализируем активную вкладку текущим URL при загрузке приложения
     // Если уже разблокировано (не должно быть при старте, но на всякий случай)
     if (this.auth.isUnlocked()) {
       this.state.set('ready');

@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 //translation
 import {TranslatePipe} from "@ngx-translate/core";
 import {TranslateService, _} from "@ngx-translate/core";
 
-import { ScenariosListComponent } from '../scenarios-list-component/scenarios-list-component';
 
 @Component({
   selector: 'app-scenarios-component',
-  imports: [TranslatePipe, ScenariosListComponent],
+  imports: [TranslatePipe, RouterOutlet],
   templateUrl: './scenarios-component.html',
   styleUrl: './scenarios-component.scss',
 })

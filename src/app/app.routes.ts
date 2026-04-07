@@ -4,10 +4,20 @@ import { ScenariosComponent } from './pages/scenarios/scenarios-component/scenar
 import { ControlComponent } from './pages/control-component/control-component';
 import { PreparatonComponent } from './pages/preparaton-component/preparaton-component';
 import { VaultComponent } from './pages/vault-component/vault-component';
+import { ScenariosListComponent } from './pages/scenarios/scenarios-list-component/scenarios-list-component';
+import { ScenariosCardComponent } from './pages/scenarios/scenarios-card-component/scenarios-card-component';
 
 export const routes: Routes = [
     {path: '', component: PreparatonComponent},
-    {path: 'scenarios', component: ScenariosComponent},
+    {path: 'scenarios', component: ScenariosComponent,
+        children: [
+            {path: '', component: ScenariosListComponent, outlet: 'children'},
+            {path: 'card', component: ScenariosCardComponent, outlet: 'children'},
+        ]
+    },
     {path: 'vault', component: VaultComponent},
     {path: 'control', component: ControlComponent}
 ];
+
+
+ //{ path: 'popup', component: PopupComponent, outlet: 'secondary' }
