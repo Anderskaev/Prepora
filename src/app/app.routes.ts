@@ -12,7 +12,7 @@ export const routes: Routes = [
     {path: 'scenarios', component: ScenariosComponent,
         children: [
             {path: '', component: ScenariosListComponent, outlet: 'children'},
-            {path: 'card', component: ScenariosCardComponent, outlet: 'children'},
+            {path: 'card/:id', component: ScenariosCardComponent, outlet: 'children'},
         ]
     },
     {path: 'vault', component: VaultComponent},

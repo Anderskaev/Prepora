@@ -1,3 +1,64 @@
-<p>scenarios-list-component works!</p>
+<!-- scenarios-list.component.html -->
+<div class="scenarios-list">
 
-<a [routerLink]="['card']">Detail</a>
+  <!-- Пустое состояние -->
+  @if (scenarios().length === 0) {
+    <div class="empty-state">
+      <span class="empty-state__icon">📋</span>
+      <p>{{ 'app.scenarios.empty.title' | translate }}</p>
+      <span>{{ 'app.scenarios.empty.subtitle' | translate }}</span>
+      <button (click)="addScenario()">
+        {{ 'app.scenarios.add' | translate }}
+      </button>
+    </div>
+  }
+
+  <!-- Список по категориям -->
+  @for (group of grouped(); track group.category?.id) {
+
+    <!-- Заголовок категории -->
+    @if (group.category) {
+      <div class="category-header">
+        <b><span class="category-header__icon">{{ group.category.icon }}</span></b>
+        <span class="category-header__label">{{ group.category.label }}</span>
+        <span class="category-header__count">{{ group.items.length }}</span>
+      </div>
+    }
+
+    <!-- Карточки сценариев -->
+    @for (scenario of group.items; track scenario.id) {
+      <div class="scenario-item" (click)="openCard(scenario)">
+
+        <div class="scenario-item__left">
+          <span class="scenario-item__icon">{{ scenario.icon }}</span>
+        </div>
+
+        <div class="scenario-item__body">
+          <span class="scenario-item__title">{{ scenario.title }}</span>
+          <span class="scenario-item__trigger">{{ scenario.trigger }}</span>
+          <span class="scenario-item__steps">
+            {{ scenario.steps.length }}
+            {{ 'app.scenarios.steps_count' | translate }}
+          </span>
+        </div>
+
+        <div class="scenario-item__right">
+          <span class="scenario-item__priority {{ priorityClass(scenario.priority) }}">
+            {{ 'app.priority.' + scenario.priority | translate }}
+          </span>
+          <span class="scenario-item__arrow">›</span>
+        </div>
+
+      </div>
+    }
+    <br/>
+  }
+
+  <!-- Кнопка добавить -->
+  @if (scenarios().length > 0) {
+    <button class="add-btn" (click)="addScenario()">
+      + {{ 'app.scenarios.add' | translate }}
+    </button>
+  }
+
+</div>

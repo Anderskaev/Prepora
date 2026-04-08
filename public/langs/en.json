@@ -33,6 +33,14 @@
 				"title": "VAULT",
 				"subtitle": "Storing important information"
 			}
+		},
+		"scenarios": {
+			"add": "Добавить сценарий",
+			"steps_count": "фаз",
+			"empty": {
+				"title": "Сценариев пока нет",
+				"subtitle": "Добавьте первый антикризисный план"
+			}	
 		}
 	}
 }
