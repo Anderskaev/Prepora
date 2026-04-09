@@ -6,6 +6,7 @@ import { PreparatonComponent } from './pages/preparaton-component/preparaton-com
 import { VaultComponent } from './pages/vault-component/vault-component';
 import { ScenariosListComponent } from './pages/scenarios/scenarios-list-component/scenarios-list-component';
 import { ScenariosCardComponent } from './pages/scenarios/scenarios-card-component/scenarios-card-component';
+import { SettingsComponent } from './pages/settings-component/settings-component';
 
 export const routes: Routes = [
     {path: '', component: PreparatonComponent},
@@ -16,7 +17,8 @@ export const routes: Routes = [
         ]
     },
     {path: 'vault', component: VaultComponent},
-    {path: 'control', component: ControlComponent}
+    {path: 'control', component: ControlComponent},
+    {path: 'settings', component: SettingsComponent}
 ];
 
 

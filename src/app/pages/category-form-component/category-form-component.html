@@ -1,0 +1,83 @@
+
+<div class="flex flex-col gap-4">
+
+  <!-- Существующие категории -->
+  @if (categories().length > 0) {
+    <div class="flex flex-col gap-2">
+      <span class="text-xs font-bold uppercase tracking-wider text-surface-400">
+        {{ 'categories.existing' | translate }}
+      </span>
+      @for (cat of categories(); track cat.id) {
+        <div class="flex items-center justify-between p-2 rounded-lg
+                    bg-surface-50 dark:bg-surface-800">
+          <div class="flex items-center gap-2">
+            <span
+              class="w-3 h-3 rounded-full flex-shrink-0"
+              [style.background]="cat.color">
+            </span>
+            <span>{{ cat.icon }}</span>
+            <span class="text-sm">{{ cat.label }}</span>
+          </div>
+          <p-button
+            icon="pi pi-trash"
+            [text]="true"
+            severity="danger"
+            size="small"
+            (onClick)="delete(cat.id)" />
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Добавить новую -->
+  <div class="flex flex-col gap-3 pt-2 border-t border-surface-200
+              dark:border-surface-700">
+    <span class="text-xs font-bold uppercase tracking-wider text-surface-400">
+      {{ 'categories.add_new' | translate }}
+    </span>
+
+    <!-- Иконка + название -->
+    <div class="flex gap-2">
+      <input
+        pInputText
+        [(ngModel)]="newIcon"
+        class="w-12 text-center text-xl"
+        maxlength="2" />
+      <input
+        pInputText
+        [(ngModel)]="newLabel"
+        [placeholder]="'categories.name_placeholder' | translate"
+        class="flex-1" />
+    </div>
+
+    <!-- Выбор цвета -->
+    <div class="flex gap-2 flex-wrap">
+      @for (color of colors; track color) {
+        <button
+          class="w-7 h-7 rounded-full border-2 transition-all"
+          [style.background]="color"
+          [class.border-white]="newColor() === color"
+          [class.border-transparent]="newColor() !== color"
+          [class.scale-110]="newColor() === color"
+          (click)="newColor.set(color)">&nbsp;
+        </button>
+      }
+    </div>
+
+    <p-button
+      [label]="'categories.add' | translate"
+      icon="pi pi-plus"
+      [disabled]="!isValid()"
+      (onClick)="add()"
+      styleClass="w-full" />
+  </div>
+
+  <!-- Закрыть -->
+  <p-button
+    [label]="'form.close' | translate"
+    severity="secondary"
+    [text]="true"
+    (onClick)="closed.emit()"
+    styleClass="w-full" />
+
+</div>

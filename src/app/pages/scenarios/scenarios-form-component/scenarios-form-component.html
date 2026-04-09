@@ -1,0 +1,145 @@
+<!-- scenarios-form.component.html -->
+<div class="flex flex-col gap-4 pb-2">
+
+  <!-- Иконка + название -->
+  <div class="flex gap-3">
+    <div class="flex flex-col gap-1">
+      <label class="text-xs text-surface-400">
+        {{ 'form.icon' | translate }}
+      </label>
+      <input
+        pInputText
+        [ngModel]="form().icon"
+        (ngModelChange)="updateField('icon', $event)"
+        class="w-14 text-center text-xl"
+        maxlength="2" />
+    </div>
+    <div class="flex flex-col gap-1 flex-1">
+      <label class="text-xs text-surface-400">
+        {{ 'form.title' | translate }} *
+      </label>
+      <input
+        pInputText
+        [ngModel]="form().title"
+        (ngModelChange)="updateField('title', $event)"
+        [placeholder]="'app.scenarios.form.title_placeholder' | translate" />
+    </div>
+  </div>
+
+  <!-- Категория + приоритет -->
+  <div class="flex gap-3">
+    <div class="flex flex-col gap-1 flex-1">
+      <label class="text-xs text-surface-400">
+        {{ 'form.category' | translate }}
+      </label>
+      <p-select
+        [options]="categories()"
+        optionLabel="label"
+        optionValue="id"
+        [ngModel]="form().category"
+        (ngModelChange)="updateField('category', $event)"
+        [placeholder]="'form.no_category' | translate"
+        [showClear]="true"
+        styleClass="w-full">
+        <ng-template pTemplate="item" let-cat>
+          <span>{{ cat.icon }} {{ cat.label }}</span>
+        </ng-template>
+      </p-select>
+    </div>
+    <div class="flex flex-col gap-1 w-36">
+      <label class="text-xs text-surface-400">
+        {{ 'form.priority' | translate }}
+      </label>
+      <p-select
+        [options]="priorities()"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="form().priority"
+        (ngModelChange)="updateField('priority', $event)"
+        styleClass="w-full" />
+    </div>
+  </div>
+
+  <!-- Триггер -->
+  <div class="flex flex-col gap-1">
+    <label class="text-xs text-surface-400">
+      {{ 'app.scenarios.form.trigger' | translate }}
+    </label>
+    <input
+      pInputText
+      [ngModel]="form().trigger"
+      (ngModelChange)="updateField('trigger', $event)"
+      [placeholder]="'app.scenarios.form.trigger_placeholder' | translate" />
+  </div>
+
+  <!-- Фазы -->
+  <div class="flex flex-col gap-2">
+    <div class="flex justify-between items-center">
+      <label class="text-xs font-bold uppercase tracking-wider text-surface-400">
+        {{ 'app.scenarios.form.phases' | translate }}
+      </label>
+      <p-button
+        icon="pi pi-plus"
+        [label]="'app.scenarios.form.add_phase' | translate"
+        [text]="true"
+        size="small"
+        (onClick)="addStep()" />
+    </div>
+
+    @for (step of form().steps; track $index) {
+      <div class="border border-surface-200 dark:border-surface-700 rounded-lg p-3
+                  flex flex-col gap-2">
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-surface-400">
+            {{ 'app.scenarios.form.phase' | translate }} {{ $index + 1 }}
+          </span>
+          @if (form().steps.length > 1) {
+            <p-button
+              icon="pi pi-times"
+              [text]="true"
+              severity="danger"
+              size="small"
+              (onClick)="removeStep($index)" />
+          }
+        </div>
+
+        <!-- Название фазы -->
+        <input
+          pInputText
+          [ngModel]="step.phase"
+          (ngModelChange)="updateStep($index, 'phase', $event)"
+          [placeholder]="'app.scenarios.form.phase_name' | translate" />
+
+        <!-- Шаги -->
+        <textarea
+          pTextarea
+          [ngModel]="step.items"
+          (ngModelChange)="updateStep($index, 'items', $event)"
+          [placeholder]="'app.scenarios.form.steps_placeholder' | translate"
+          [autoResize]="true"
+          rows="3"
+          class="w-full text-sm">
+        </textarea>
+        <span class="text-xs text-surface-300">
+          {{ 'app.scenarios.form.steps_hint' | translate }}
+        </span>
+      </div>
+    }
+  </div>
+
+  <!-- Кнопки -->
+  <div class="flex justify-end gap-2 pt-2 border-t border-surface-200
+              dark:border-surface-700">
+    <p-button
+      [label]="'form.cancel' | translate"
+      severity="secondary"
+      [text]="true"
+      (onClick)="cancel()" />
+    <p-button
+      [label]="'form.save' | translate"
+      icon="pi pi-check"
+      [disabled]="!isValid()"
+      (onClick)="save()" />
+  </div>
+
+</div>

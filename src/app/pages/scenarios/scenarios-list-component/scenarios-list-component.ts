@@ -1,15 +1,22 @@
 // features/scenarios/scenarios-list.component.ts
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataService } from '../../../services/data-service';
 import { Scenario, Category } from '../../../models/app-models';
 import { computed } from '@angular/core';
+import { TooltipModule } from 'primeng/tooltip';
+
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
+import { ScenariosFormComponent } from '../scenarios-form-component/scenarios-form-component';
+import { CategoryFormComponent } from '../../category-form-component/category-form-component';
 
 @Component({
   selector: 'app-scenarios-list',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslateModule, ButtonModule, TagModule, DialogModule, ScenariosFormComponent, CategoryFormComponent, TooltipModule],
   templateUrl: './scenarios-list-component.html',
 })
 export class ScenariosListComponent {
@@ -18,6 +25,11 @@ export class ScenariosListComponent {
 
   scenarios          = this.data.scenarios;
   scenarioCategories = this.data.scenarioCategories;
+
+  // Диалоги
+  showForm     = signal(false);
+  showCatForm  = signal(false);
+  editScenario = signal<Scenario | null>(null);  
 
   // Сценарии сгруппированные по категориям
   grouped = computed(() => {
@@ -58,6 +70,11 @@ export class ScenariosListComponent {
     //console.log(this.scenarioCategories());
   }
 
+
+  prioritySeverity(p: Scenario['priority']): 'danger' | 'warn' | 'secondary' {
+    return { CRITICAL: 'danger', IMPORTANT: 'warn', STANDARD: 'secondary' }[p] as any;
+  }
+
   priorityClass(priority: Scenario['priority']): string {
     return {
       'CRITICAL':  'priority--critical',
@@ -66,14 +83,37 @@ export class ScenariosListComponent {
     }[priority] ?? '';
   }
 
-// навигация
-openCard(scenario: Scenario) {
-  this.router.navigate(
-    ['/scenarios', { outlets: { children: ['card', scenario.id] } }]
-  );
-}
-
-  addScenario() {
-    // TODO: открыть форму
+  // навигация
+  openCard(scenario: Scenario) {
+    this.router.navigate(
+      ['/scenarios', { outlets: { children: ['card', scenario.id] } }]
+    );
   }
+
+  openAdd() {
+    this.editScenario.set(null);
+    this.showForm.set(true);
+  }
+
+  openEdit(scenario: Scenario, event: Event) {
+    event.stopPropagation();
+    this.editScenario.set(scenario);
+    this.showForm.set(true);
+  }
+
+  onFormSaved() {
+    this.showForm.set(false);
+    this.editScenario.set(null);
+  }
+
+  onFormCancelled() {
+    this.showForm.set(false);
+    this.editScenario.set(null);
+  }
+
+  deleteScenario(id: string, event: Event) {
+    event.stopPropagation();
+    this.data.deleteScenario(id);
+  }
+  
 }

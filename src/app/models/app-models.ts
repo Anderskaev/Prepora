@@ -9,13 +9,15 @@ export interface AppData {
     vaultCategories: Category[];
 }
 
+export type Priority = 'CRITICAL' | 'IMPORTANT' | 'STANDARD';
+
 // ── Сценарий ─────────────────────────────────────────
 export interface Scenario {
     id: string;
     title: string;
     icon: string;
     category: string; // id категории
-    priority: "CRITICAL" | "IMPORTANT" | "STANDARD";
+    priority: Priority;
     trigger: string; // когда применять
     steps: ScenarioStep[];
     createdAt: string;

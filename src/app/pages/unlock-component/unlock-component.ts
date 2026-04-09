@@ -36,7 +36,7 @@ export class UnlockComponent {
 
   async onPinInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
-    if (value.length === 6) {
+    if (value.length === 4) {
       await this.unlockWithPin(value);
     }
   }

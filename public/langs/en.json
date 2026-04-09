@@ -1,7 +1,6 @@
-	{
+{
 	"app": {
-		"name": "Preport",
-		"title": "Family anti-crisis plan",
+		"name": "Prepora",
 		"priority": {
 			"CRITICAL": "Critical",
 			"IMPORTANT": "Important",
@@ -12,35 +11,121 @@
 			"NONE": "Never",
 			"YEARLY": "Yearly"
 		},
+		"scenarios": {
+			"add": "Add Scenario",
+			"categories": "Categories",
+			"count": "Scenario Count",
+			"create": "Create Scenario",
+			"edit": "Edit Scenario",
+			"empty": {
+				"subtitle": "Add your first crisis plan",
+				"title": "No scenarios yet"
+			},
+			"form": {
+				"add_phase": "Add Phase",
+				"phase": "Phase",
+				"phase_name": "Phase Name",
+				"phases": "Phases",
+				"steps_hint": "Instructions for the given phase. Each instruction is a separate step to be completed.",
+				"steps_placeholder": "Instruction 1\nInstruction 2\nInstruction 3",
+				"title_placeholder": "Scenario Title",
+				"trigger": "Trigger",
+				"trigger_placeholder": "Trigger is an event that initiates the execution of a scenario. For example, «Flood», «Fire», «Job Loss» or «Divorce». The more specific it is, the better."
+			},
+			"manage_categories": "Manage Categories",
+			"not_found": "No scenarios found",
+			"phases": "Phases",
+			"phases_title": "Scenario Phases",
+			"trigger_label": "Trigger"
+		},
 		"tabs": {
 			"control": {
-				"name":"Control",
-				"title": "CONTROL LIST",
-				"subtitle": "Maintaining the plan in an up-to-date state"
+				"name": "Control",
+				"subtitle": "Maintaining the plan in an up-to-date state",
+				"title": "CONTROL LIST"
 			},
 			"preparation": {
-				"name":"Preparation",
-				"title": "PREPARATION IN ADVANCE",
-				"subtitle": "What to do before the crisis hits"
+				"name": "Preparation",
+				"subtitle": "What to do before the crisis occurs",
+				"title": "PREPARATION"
 			},
 			"scenarios": {
-				"name":"Scenarios",
-				"title": "SCENARIOS",
-				"subtitle": "Step-by-step instructions for various crisis scenarios"
+				"name": "Scenarios",
+				"subtitle": "Step-by-step instructions for various crisis scenarios",
+				"title": "SCENARIOS"
+			},
+			"settings": {
+				"name": "Settings",
+				"subtitle": "Manage your application settings",
+				"title": "SETTINGS"
 			},
 			"vault": {
-				"name":"Vault",
-				"title": "VAULT",
-				"subtitle": "Storing important information"
+				"name": "Vault",
+				"subtitle": "Storing important information",
+				"title": "VAULT"
 			}
 		},
-		"scenarios": {
-			"add": "Добавить сценарий",
-			"steps_count": "фаз",
-			"empty": {
-				"title": "Сценариев пока нет",
-				"subtitle": "Добавьте первый антикризисный план"
-			}	
+		"title": "Family Crisis Plan"
+	},
+	"categories": {
+		"add": "Add Category",
+		"add_new": "Add New Category",
+		"existing": "Existing Categories",
+		"name_placeholder": "Category Name"
+	},
+	"form": {
+		"back": "Back",
+		"cancel": "Cancel",
+		"category": "Category",
+		"close": "Close",
+		"icon": "Icon",
+		"no_category": "No Category",
+		"priority": "Priority",
+		"save": "Save",
+		"title": "Scenario Title"
+	},
+	"settings": {
+		"backup": {
+			"description": "Create a backup of your plan to avoid losing it in case of device failure or other issues. The backup will be saved as a file on your device.",
+			"title": "Backup"
+		},
+		"danger": {
+			"confirm_hint": "Please enter 'DELETE' to confirm.",
+			"reset": "Reset All Data",
+			"title": "Dangerous Actions",
+			"warning": "Warning! This action will delete all your data and cannot be undone. Please ensure you have a backup before continuing."
+		},
+		"export": {
+			"button": "Export Data",
+			"error": "",
+			"success": ""
+		},
+		"import": {
+			"button": "Import Data",
+			"error": "",
+			"success": "",
+			"wrong_key": ""
+		},
+		"language": "Language",
+		"password": {
+			"change": "Change Password",
+			"changed": "",
+			"confirm": "",
+			"description": "Set a password to protect your plan from unauthorized access. The password must be at least 8 characters long and contain letters and numbers.",
+			"new": "",
+			"old": "",
+			"title": "Password"
+		},
+		"pin": {
+			"change": "Change PIN Code",
+			"description": "Set a PIN code to protect your plan from unauthorized access. The PIN code must consist of 4 digits.",
+			"hint": "",
+			"placeholder": "",
+			"remove": "Remove PIN Code",
+			"removed": "",
+			"saved": "",
+			"set": "",
+			"title": "PIN Code"
 		}
 	}
 }
