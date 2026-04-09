@@ -35,7 +35,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/prepora/",
+              "baseHref": "/app/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/dev.environment.ts",
