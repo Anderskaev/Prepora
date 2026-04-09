@@ -71,5 +71,4 @@ Version **1.0.1** — live and accepting early users. Active development.
  
 ## Contact
  
-- 📧 [hello@prepora.ru](mailto:hello@prepora.ru)
 - 💬 Telegram: [t.me/pp_crizis](https://t.me/pp_crizis)
