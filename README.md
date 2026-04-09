@@ -7,9 +7,9 @@
 ![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=flat&logo=pwa&logoColor=white)
 ![AES-256](https://img.shields.io/badge/AES--256_encryption-2E7D32?style=flat&logo=letsencrypt&logoColor=white)
  
-🌐 **Live:** [prepora.ru](https://prepora.anderskaev.ru)
+🌐 **Live:** [prepora.anderskaev.ru](https://prepora.anderskaev.ru)
 
-:gear: **APP:** [anderskaev.ru/prepora](https://prepora.anderskaev.ru/app)
+:gear: **APP:** [prepora.anderskaev.ru/app](https://prepora.anderskaev.ru/app)
  
 ---
  
