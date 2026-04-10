@@ -11,11 +11,7 @@ self.addEventListener('message', (event) => {
       clearTimeout(scheduledNotifications.get(id));
     }  
     
-    console.log(`Scheduling notification ${id} at ${date} with repeat ${repeat}`);  
-    console.log(`Current time: ${new Date(date).getTime()}`);
-
     const delay = new Date(date).getTime() - new Date().getTime();
-    console.log(`Calculated delay: ${delay} ms`); 
     if (delay <= 0) return;
     
 
