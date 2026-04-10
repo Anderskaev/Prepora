@@ -7,9 +7,9 @@
 ![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=flat&logo=pwa&logoColor=white)
 ![AES-256](https://img.shields.io/badge/AES--256_encryption-2E7D32?style=flat&logo=letsencrypt&logoColor=white)
  
-🌐 **Live:** [prepora.ru](https://prepora.ru) //temporary unavailable
+🌐 **Live:** [prepora.anderskaev.ru](https://prepora.anderskaev.ru)
 
-:gear: **APP:** [anderskaev.ru/prepora](https://anderskaev.ru/prepora)
+:gear: **APP:** [prepora.anderskaev.ru/app](https://prepora.anderskaev.ru/app)
  
 ---
  
@@ -51,7 +51,7 @@ Zero Knowledge architecture: all data is encrypted client-side with AES-256 befo
 | Frontend | Angular 21, TypeScript, SCSS |
 | PWA | Angular Service Worker |
 | CI/CD | GitHub Actions |
-| Hosting | prepora.ru (temp unavailable) |
+| Hosting | prepora.anderskaev.ru |
  
 ---
  
