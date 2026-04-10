@@ -74,7 +74,7 @@ export class ControlComponent {
   save() {
     if (!this.formTitle().trim() || !this.formDate()) return;
     const existing = this.editItem();
-    this.formDate()!.setHours(19, 25, 0, 0); // Ставим полдень для единообразия
+    this.formDate()!.setHours(20, 0, 0, 0); 
     const payload = {
       title:  this.formTitle().trim(),
       date:   this.formDate()!.toISOString(),
