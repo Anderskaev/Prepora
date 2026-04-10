@@ -5,6 +5,26 @@ const scheduledNotifications = new Map();
 self.addEventListener('message', (event) => {
   const { type, id, date, repeat } = event.data;
 
+  if (type === 'test') {
+    console.log('Testing notification scheduling...', { id, date, repeat });
+    
+    const timeout = setTimeout(async () => {
+      console.log('Showing test notification...');
+      await self.registration.showNotification('Prepora', {
+        body:    'Тестовое уведомление',
+        icon:    '/icons/icon-192x192.png',
+        badge:   '/icons/badge-72x72.png',
+        tag:     id,
+        data:    { id, repeat, date },
+        actions: [
+          { action: 'open',    title: 'Открыть' },
+          { action: 'dismiss', title: 'Закрыть' },
+        ],
+      });
+      console.log('Shown test notification');
+    },10);
+  }
+
   if (type === 'SCHEDULE_NOTIFICATION') {
     // Очищаем старый таймер если есть
     if (scheduledNotifications.has(id)) {

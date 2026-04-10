@@ -9,7 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TagModule } from 'primeng/tag';
 import { DataService } from '../../services/data-service';
-import { Reminder } from '../../models/app-models';
+import { Reminder, ReminderSchedule } from '../../models/app-models';
 
 @Component({
   selector: 'app-control',
@@ -103,4 +103,30 @@ export class ControlComponent {
     if (this.isSoon(date))    return 'warn';
     return 'secondary';
   }
+
+
+  private async getServiceWorker(): Promise<ServiceWorker | null> {
+    if (!('serviceWorker' in navigator)) return null;
+    const reg = await navigator.serviceWorker.ready.catch(() => null);
+    return reg?.active ?? null;
+  }
+
+  async test(): Promise<void> {
+    console.log('Testing notification scheduling...');
+
+    const sw = await this.getServiceWorker(); 
+    if (!sw) {
+      // Fallback: setTimeout если SW недоступен
+      return;
+    }
+ 
+    // Отправляем сообщение Service Worker
+    sw.postMessage({
+      type:     'test',
+      id:       'test-id',
+      date:     new Date().toISOString(),
+      repeat:   'NONE',
+    });
+  }
+
 }
