@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreparatonComponent } from './preparaton-component';
+import { VaultCardComponent } from './vault-card-component';
 
-describe('PreparatonComponent', () => {
-  let component: PreparatonComponent;
-  let fixture: ComponentFixture<PreparatonComponent>;
+describe('VaultCardComponent', () => {
+  let component: VaultCardComponent;
+  let fixture: ComponentFixture<VaultCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PreparatonComponent]
+      imports: [VaultCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PreparatonComponent);
+    fixture = TestBed.createComponent(VaultCardComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

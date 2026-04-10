@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { ScenariosFormComponent } from '../scenarios-form-component/scenarios-form-component';
-import { CategoryFormComponent } from '../../category-form-component/category-form-component';
+import { CategoryFormComponent } from '../category-form-component/category-form-component';
 
 @Component({
   selector: 'app-scenarios-list',
@@ -63,11 +63,7 @@ export class ScenariosListComponent {
       id:'',
       updatedAt:''
     }
-    //this.data.addScenario(c);
-    //console.log(this.scenarioCategories());
-    //8b5b1540-1532-4eb1-aa3e-ca4d3a9968f9
-    //this.data.addScenarioCategory({label:'cat1', icon:'pi-home', color:'green'});
-    //console.log(this.scenarioCategories());
+
   }
 
 

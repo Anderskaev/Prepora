@@ -1,0 +1,64 @@
+@if (item(); as v) {
+  <div class="flex flex-col gap-4 p-4">
+
+    <div class="flex items-center gap-2">
+      <p-button icon="pi pi-arrow-left" [text]="true"
+        severity="secondary" (onClick)="back()" />
+      <div class="flex-1">
+        <p class="font-bold text-lg">{{ v.title }}</p>
+        @if (category()) {
+          <span class="text-xs text-surface-400">
+            {{ category()!.icon }} {{ category()!.label }}
+          </span>
+        }
+      </div>
+      <p-button icon="pi pi-pencil" [text]="true"
+        severity="secondary" (onClick)="showEdit.set(true)" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      @for (field of v.fields; track $index) {
+        <div class="flex items-center justify-between p-3 rounded-lg
+                    bg-surface-50 dark:bg-surface-800">
+          <div class="flex flex-col gap-0.5 flex-1 min-w-0">
+            <span class="text-xs text-surface-400">{{ field.label }}</span>
+            <span class="text-sm font-mono truncate">
+              @if (field.sensitive && !revealed().has($index)) {
+                ••••••••
+              } @else {
+                {{ field.value }}
+              }
+            </span>
+          </div>
+          <div class="flex gap-1 flex-shrink-0">
+            @if (field.sensitive) {
+              <p-button
+                [icon]="revealed().has($index) ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                [text]="true" size="small" severity="secondary"
+                (onClick)="toggleReveal($index)" />
+            }
+            <!-- <p-button icon="pi pi-copy" [text]="true" size="small"
+              severity="secondary"
+              (onClick)="$any(navigator).clipboard.writeText(field.value)" /> -->
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+} @else {
+  <div class="flex flex-col items-center gap-3 p-8 text-center">
+    <span class="text-4xl">🔍</span>
+    <p class="text-surface-400">{{ 'vault.not_found' | translate }}</p>
+    <p-button [label]="'form.back' | translate" icon="pi pi-arrow-left"
+      [text]="true" (onClick)="back()" />
+  </div>
+}
+
+<p-dialog [(visible)]="showEdit" [modal]="true" [draggable]="false"
+  [style]="{ width: '95vw', maxWidth: '560px' }"
+  [header]="'vault.edit' | translate">
+  <app-vault-form-component [item]="item()!"
+    (saved)="showEdit.set(false)"
+    (cancelled)="showEdit.set(false)" />
+</p-dialog>

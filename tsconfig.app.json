@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/sw-notifications.js"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

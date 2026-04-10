@@ -20,9 +20,10 @@ import { environment } from '../environments/dev.environment';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
+    provideRouter(routes), provideServiceWorker('sw-notifications.js', {
+            enabled: true,//!isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
+            //registrationStrategy: 'registerImmediately'
           }),
     providePrimeNG({
             theme: {

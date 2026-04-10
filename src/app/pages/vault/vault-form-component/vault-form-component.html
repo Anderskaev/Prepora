@@ -1,0 +1,70 @@
+<div class="flex flex-col gap-4 pb-2">
+
+  <div class="flex flex-col gap-1">
+    <label class="text-xs text-surface-400">{{ 'form.title' | translate }} *</label>
+    <input pInputText [ngModel]="title()" (ngModelChange)="title.set($event)"
+      [placeholder]="'vault.form.title_placeholder' | translate" />
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label class="text-xs text-surface-400">{{ 'form.category' | translate }}</label>
+    <p-select [options]="categories()" optionLabel="label" optionValue="id"
+      [ngModel]="category()" (ngModelChange)="category.set($event)"
+      [placeholder]="'form.no_category' | translate"
+      [showClear]="true" styleClass="w-full">
+      <ng-template pTemplate="item" let-cat>
+        <span>{{ cat.icon }} {{ cat.label }}</span>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <!-- Поля -->
+  <div class="flex flex-col gap-2">
+    <div class="flex justify-between items-center">
+      <label class="text-xs font-bold uppercase tracking-wider text-surface-400">
+        {{ 'vault.form.fields' | translate }}
+      </label>
+      <p-button icon="pi pi-plus" [label]="'vault.form.add_field' | translate"
+        [text]="true" size="small" (onClick)="addField()" />
+    </div>
+
+    @for (field of fields(); track $index) {
+      <div class="border border-surface-200 dark:border-surface-700
+                  rounded-lg p-3 flex flex-col gap-2">
+        <div class="flex gap-2">
+          <input pInputText
+            [ngModel]="field.label"
+            (ngModelChange)="updateField($index, 'label', $event)"
+            [placeholder]="'vault.form.field_label' | translate"
+            class="w-32 flex-shrink-0" />
+          <input pInputText
+            [ngModel]="field.value"
+            (ngModelChange)="updateField($index, 'value', $event)"
+            [placeholder]="'vault.form.field_value' | translate"
+            [type]="field.sensitive ? 'password' : 'text'"
+            class="flex-1" />
+          @if (fields().length > 1) {
+            <p-button icon="pi pi-times" [text]="true" severity="danger"
+              size="small" (onClick)="removeField($index)" />
+          }
+        </div>
+        <div class="flex items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="field.sensitive"
+            (ngModelChange)="updateField($index, 'sensitive', $event)" />
+          <span class="text-xs text-surface-400">
+            {{ 'vault.form.sensitive' | translate }}
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="flex justify-end gap-2 pt-2 border-t border-surface-200
+              dark:border-surface-700">
+    <p-button [label]="'form.cancel' | translate" severity="secondary"
+      [text]="true" (onClick)="cancelled.emit()" />
+    <p-button [label]="'form.save' | translate" icon="pi pi-check"
+      [disabled]="!isValid()" (onClick)="save()" />
+  </div>
+</div>

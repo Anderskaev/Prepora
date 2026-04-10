@@ -64,3 +64,11 @@ export interface Category {
     icon: string;
     color: string; // hex
 }
+
+
+export interface ExportFile {
+  version: number;          // версия формата
+  salt:    number[];        // соль в виде массива (для JSON)
+  iv:      number[];        // IV шифрования
+  data:    number[];        // зашифрованные данные
+}

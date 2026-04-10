@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { DataService } from '../../services/data-service';
-import { Category } from '../../models/app-models';
+import { DataService } from '../../../services/data-service';
+import { Category } from '../../../models/app-models';
 
 const COLORS = [
   '#F97316','#EF4444','#8B5CF6',

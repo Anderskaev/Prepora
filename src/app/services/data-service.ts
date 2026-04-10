@@ -6,10 +6,11 @@ import { AuthService } from './auth-service';
 import { StorageService } from './storage-service';
 import {
   AppData, Scenario, VaultItem,
-  Reminder, Category, ReminderSchedule
+  Reminder, Category, ReminderSchedule,
+  ExportFile
 } from '../models/app-models';
 
-//import { ReminderService } from './reminder.service'; //раскомментировать при добавлении ReminderService
+import { ReminderService } from './reminder-service'; //раскомментировать при добавлении ReminderService
 
 const EMPTY_APP_DATA: AppData = {
   version:            1,
@@ -42,7 +43,7 @@ export class DataService {
   constructor(
     private auth:     AuthService,
     private storage:  StorageService,
-    //private reminder: ReminderService
+    private reminder: ReminderService
   ) {
     // Подписываемся на persist$ с debounce
     // Шифрование происходит не чаще раза в секунду
@@ -166,7 +167,7 @@ export class DataService {
       ...data,
       reminders: data.reminders.filter(r => r.id !== id)
     }));
-    //this.reminder.removeSchedule(id); //раскомментировать при добавлении ReminderService
+    this.reminder.removeSchedule(id); //раскомментировать при добавлении ReminderService
   }
 
   // ── CATEGORIES ──────────────────────────────────────────────────────────
@@ -213,21 +214,58 @@ export class DataService {
   }
 
   // ── Экспорт / Импорт ────────────────────────────────────────────────────
-  async exportBlob(): Promise<Blob> {
-    // Принудительно сохраняем актуальные данные
-    await this.saveToStorage(this.data);
-    const buf = await this.storage.loadBlob();
-    if (!buf) throw new Error('No data to export');
-    return new Blob([buf], { type: 'application/octet-stream' });
-  }
+// Экспорт — отдельный пароль для файла
+async exportBlob(exportPassword: string): Promise<Blob> {
+  // 1. Генерируем новую соль специально для этого файла
+  const fileSalt = crypto.getRandomValues(new Uint8Array(16));
 
-  async importBlob(file: File): Promise<void> {
-    const buf = await file.arrayBuffer();
-    // Проверяем что файл расшифровывается текущим ключом
-    const decrypted = await this.decrypt(buf);
-    await this.storage.saveBlob(buf);
-    this.applyData(decrypted);
-  }
+  // 2. Дериваем ключ из пароля файла + новой соли
+  const fileKey = await this.auth.deriveKey(exportPassword, fileSalt);
+
+  // 3. Шифруем данные ключом файла
+  const iv      = crypto.getRandomValues(new Uint8Array(12));
+  const encoded = new TextEncoder().encode(JSON.stringify(this.data));
+  const cipher  = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv } as AesGcmParams, fileKey, encoded
+  );
+
+  // 4. В файл идёт: соль файла + IV + данные
+  //    Ключ приложения ВООБЩЕ не участвует
+  const exportFile: ExportFile = {
+    version: 1,
+    salt:    Array.from(fileSalt),   // соль только для этого файла
+    iv:      Array.from(iv),
+    data:    Array.from(new Uint8Array(cipher)),
+  };
+
+  return new Blob(
+    [JSON.stringify(exportFile)],
+    { type: 'application/json' }
+  );
+}
+
+// Импорт — расшифровываем ключом файла, сохраняем своим ключом
+async importBlob(file: File, exportPassword: string): Promise<void> {
+  const exportFile = JSON.parse(await file.text()) as ExportFile;
+
+  // 1. Дериваем ключ из пароля + соли ИЗ ФАЙЛА
+  const fileSalt = new Uint8Array(exportFile.salt);
+  const fileKey  = await this.auth.deriveKey(exportPassword, fileSalt);
+
+  // 2. Расшифровываем ключом файла
+  const decrypted = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: new Uint8Array(exportFile.iv) } as AesGcmParams,
+    fileKey,
+    new Uint8Array(exportFile.data)
+  );
+
+  const appData = JSON.parse(new TextDecoder().decode(decrypted)) as AppData;
+
+  // 3. Сохраняем СВОИМ текущим ключом приложения
+  //    Ключ файла здесь уже не нужен и нигде не сохраняется
+  await this.saveToStorage(appData);
+  this.applyData(appData);
+}
 
   // ── Приватные методы ────────────────────────────────────────────────────
 
@@ -297,6 +335,6 @@ export class DataService {
       scheduledAt: reminder.date,
       repeat:      reminder.repeat
     };
-    //this.reminder.saveSchedule(schedule); //раскомментировать при добавлении ReminderService
+    this.reminder.saveSchedule(schedule); //раскомментировать при добавлении ReminderService
   }
 }

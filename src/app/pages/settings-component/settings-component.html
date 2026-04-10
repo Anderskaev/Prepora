@@ -70,12 +70,12 @@
       <div class="flex gap-2">
         <p-button [label]="'settings.export.button' | translate"
           icon="pi pi-download" [loading]="exportLoading()"
-          (onClick)="exportData()" />
+          (onClick)="openExport()" />
         <label class="p-button p-button-outlined cursor-pointer">
           <i class="pi pi-upload mr-2"></i>
           {{ 'settings.import.button' | translate }}
           <input type="file" accept=".prp" class="hidden"
-            (change)="importData($event)" />
+            (change)="onFileSelected($event)" />
         </label>
       </div>
     </section>
@@ -165,6 +165,60 @@
         severity="danger" icon="pi pi-trash" [loading]="resetLoading()"
         [disabled]="resetConfirm() !== RESET_WORD"
         (onClick)="resetAll()" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Диалог импорта с паролем -->
+<p-dialog [(visible)]="showImportDlg" [modal]="true" [draggable]="false"
+  [style]="{ width: '95vw', maxWidth: '420px' }"
+  [header]="'settings.import.dialog_title' | translate">
+  <div class="flex flex-col gap-4 pb-2">
+    <p class="text-sm text-surface-500">
+      {{ 'settings.import.password_hint' | translate }}
+    </p>
+    <p-password
+      [ngModel]="importPwd()"
+      (ngModelChange)="importPwd.set($event)"
+      [placeholder]="'settings.import.password_placeholder' | translate"
+      [feedback]="false"
+      styleClass="w-full" inputStyleClass="w-full" />
+    <div class="flex justify-end gap-2">
+      <p-button [label]="'form.cancel' | translate" severity="secondary"
+        [text]="true" (onClick)="showImportDlg.set(false)" />
+      <p-button [label]="'settings.import.button' | translate"
+        icon="pi pi-upload" [loading]="importLoading()"
+        [disabled]="!importPwd().trim()"
+        (onClick)="confirmImport()" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Диалог экспорта -->
+<p-dialog [(visible)]="showExportDlg" [modal]="true" [draggable]="false"
+  [style]="{ width: '95vw', maxWidth: '420px' }"
+  [header]="'settings.export.dialog_title' | translate">
+  <div class="flex flex-col gap-4 pb-2">
+    <p class="text-sm text-surface-500">
+      {{ 'settings.export.password_hint' | translate }}
+    </p>
+    <p-password [ngModel]="exportPwd()" (ngModelChange)="exportPwd.set($event)"
+      [placeholder]="'settings.export.password_placeholder' | translate"
+      styleClass="w-full" inputStyleClass="w-full" />
+    <p-password [ngModel]="exportPwdConfirm()"
+      (ngModelChange)="exportPwdConfirm.set($event)"
+      [placeholder]="'settings.export.password_confirm' | translate"
+      [feedback]="false" styleClass="w-full" inputStyleClass="w-full" />
+    @if (exportPwdError()) {
+      <span class="text-xs text-red-500">{{ exportPwdError() | translate }}</span>
+    }
+    <div class="flex justify-end gap-2">
+      <p-button [label]="'form.cancel' | translate" severity="secondary"
+        [text]="true" (onClick)="showExportDlg.set(false)" />
+      <p-button [label]="'settings.export.button' | translate"
+        icon="pi pi-download" [loading]="exportLoading()"
+        [disabled]="!exportPwd().trim()"
+        (onClick)="confirmExport()" />
     </div>
   </div>
 </p-dialog>

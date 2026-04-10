@@ -97,34 +97,41 @@
 		},
 		"export": {
 			"button": "Export Data",
-			"error": "",
-			"success": ""
+			"dialog_title": "Export Data",
+			"error": "Error occurred while exporting data",
+			"password_confirm": "Please confirm the password",
+			"password_hint": "Please create a password for the backup file. It is not related to the application password.",
+			"password_placeholder": "Password for the backup file",
+			"success": "Export successful"
 		},
 		"import": {
 			"button": "Import Data",
-			"error": "",
-			"success": "",
-			"wrong_key": ""
+			"dialog_title": "Import Data",
+			"error": "Error occurred while importing data",
+			"password_hint": "Please enter the password for the backup file",
+			"password_placeholder": "Password for the backup file",
+			"success": "Import successful",
+			"wrong_key": "Invalid password or corrupted file"
 		},
 		"language": "Language",
 		"password": {
 			"change": "Change Password",
-			"changed": "",
-			"confirm": "",
+			"changed": "Change successful",
+			"confirm": "Confirm Password",
 			"description": "Set a password to protect your plan from unauthorized access. The password must be at least 8 characters long and contain letters and numbers.",
-			"new": "",
-			"old": "",
+			"new": "New Password",
+			"old": "Old Password",
 			"title": "Password"
 		},
 		"pin": {
 			"change": "Change PIN Code",
 			"description": "Set a PIN code to protect your plan from unauthorized access. The PIN code must consist of 4 digits.",
-			"hint": "",
-			"placeholder": "",
+			"hint": "The PIN code must consist of 4 digits.",
+			"placeholder": "Enter PIN code",
 			"remove": "Remove PIN Code",
-			"removed": "",
-			"saved": "",
-			"set": "",
+			"removed": "PIN code removed successfully",
+			"saved": "PIN code saved successfully",
+			"set": "Set PIN Code",
 			"title": "PIN Code"
 		}
 	}

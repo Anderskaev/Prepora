@@ -32,6 +32,97 @@ export class SettingsComponent {
   private translate = inject(TranslateService);
   private toast    = inject(MessageService);
 
+
+  exportLoading = signal(false);
+  importLoading = signal(false);
+
+  //ЭКСПОРТ
+  showExportDlg = signal(false);
+  exportPwd     = signal('');
+  exportPwdConfirm = signal('');
+  exportPwdError   = signal('');
+
+  openExport() {
+    this.exportPwd.set('');
+    this.exportPwdConfirm.set('');
+    this.exportPwdError.set('');
+    this.showExportDlg.set(true);
+  }  
+
+  async confirmExport() {
+    if (this.exportPwd() !== this.exportPwdConfirm()) {
+      this.exportPwdError.set('settings.export.mismatch');
+      return;
+    }
+    if (this.exportPwd().length < 4) {
+      this.exportPwdError.set('settings.export.too_short');
+      return;
+    }
+    this.exportLoading.set(true);
+    try {
+      const blob = await this.data.exportBlob(this.exportPwd());
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `prepora-${new Date().toISOString().slice(0,10)}.prp`;
+      a.click();
+      URL.revokeObjectURL(url);
+      this.showExportDlg.set(false);
+      this.toast.add({
+        severity: 'success',
+        summary:  this.translate.instant('settings.export.success'),
+        life: 3000
+      });
+    } catch {
+      this.toast.add({ severity: 'error',
+        summary: this.translate.instant('settings.export.error'), life: 3000 });
+    } finally {
+      this.exportLoading.set(false);
+    }
+  }
+
+  //ИМПОРТ
+
+  importFile   = signal<File | null>(null);
+  importPwd    = signal('');
+  showImportDlg = signal(false);  
+
+  
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.importFile.set(file);
+    this.showImportDlg.set(true);
+    // сбрасываем input чтобы можно было выбрать тот же файл повторно
+    (event.target as HTMLInputElement).value = '';
+  }  
+
+  async confirmImport() {
+    const file = this.importFile();
+    if (!file || !this.importPwd().trim()) return;
+    this.importLoading.set(true);
+    try {
+      await this.data.importBlob(file, this.importPwd());
+      this.showImportDlg.set(false);
+      this.importFile.set(null);
+      this.importPwd.set('');
+      this.toast.add({
+        severity: 'success',
+        summary: this.translate.instant('settings.import.success'),
+        life: 3000
+      });
+    } catch {
+      this.toast.add({
+        severity: 'error',
+        summary: this.translate.instant('settings.import.error'),
+        detail:  this.translate.instant('settings.import.wrong_key'),
+        life: 5000
+      });
+    } finally {
+      this.importLoading.set(false);
+    }
+  }  
+
   // Язык
   languages = [
     { label: 'RU', value: 'ru' },
@@ -88,6 +179,7 @@ export class SettingsComponent {
   pwdError    = signal('');
   pwdLoading  = signal(false);
 
+
   async changePassword() {
     if (this.newPassword() !== this.confirmPwd()) {
       this.pwdError.set('settings.password.mismatch');
@@ -127,8 +219,8 @@ export class SettingsComponent {
   }
 
   // Экспорт
-  exportLoading = signal(false);
 
+/*
   async exportData() {
     this.exportLoading.set(true);
     try {
@@ -156,7 +248,7 @@ export class SettingsComponent {
   }
 
   // Импорт
-  importLoading = signal(false);
+  
 
   async importData(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -181,7 +273,7 @@ export class SettingsComponent {
       (event.target as HTMLInputElement).value = '';
     }
   }
-
+*/
   // Сброс
   showResetDlg   = signal(false);
   resetLoading   = signal(false);

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { openPreporaDB } from '../db/database';
+import { ReminderSchedule } from '../models/app-models';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +42,22 @@ export class StorageService {
     await db.put('meta', true, 'setup');
   }
 
-  // Полный сброс (для тестов или смены пароля)
+  async saveReminderSchedule(s: ReminderSchedule): Promise<void> {
+    (await this.dbPromise).put('reminders', s, s.id);
+  }
+
+  async removeReminderSchedule(id: string): Promise<void> {
+    (await this.dbPromise).delete('reminders', id);
+  }
+
+  async getAllRemindersSchedules(): Promise<ReminderSchedule[]> {
+    const db   = await this.dbPromise;
+    const keys = await db.getAllKeys('reminders');
+    const all  = await Promise.all(keys.map(k => db.get('reminders', k)));
+    return all.filter(Boolean) as ReminderSchedule[];
+  }
+  
+   // Полный сброс (для тестов или смены пароля)
   async clearAll(): Promise<void> {
     const db = await this.dbPromise;
     await db.clear('vault');

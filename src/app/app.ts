@@ -5,6 +5,7 @@ import { MainComponent } from "./pages/main-component/main-component";
 import { UnlockComponent } from "./pages/unlock-component/unlock-component";
 import { SetupComponent } from "./pages/setup-component/setup-component";
 import { Router } from '@angular/router';
+import { ReminderService } from './services/reminder-service';
 
 type AppState = 'loading' | 'setup' | 'unlock' | 'ready';
 
@@ -23,7 +24,8 @@ export class App {
   constructor(
     private storage: StorageService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private reminder: ReminderService
   ) {  }  
 
   ngAfterContentChecked() {
@@ -36,6 +38,7 @@ export class App {
   }
 
   async ngOnInit() {
+    await this.reminder.requestPermission();
     //document.documentElement.classList.add('my-app-dark');
     this.activeTab = this.router.url; // Инициализируем активную вкладку текущим URL при загрузке приложения
     // Если уже разблокировано (не должно быть при старте, но на всякий случай)
@@ -52,12 +55,14 @@ export class App {
     this.setupVisibilityListener();
   }
   
-    onSetupComplete() {
-    this.state.set('ready');
+  onSetupComplete() {
+      this.state.set('ready');
   }
 
-  onUnlocked() {
+  async onUnlocked() {
     this.state.set('ready');
+    const schedules =  await this.storage.getAllRemindersSchedules();
+    await this.reminder.syncAll(schedules);    
   }
 
   private hiddenAt: number | null = null;
