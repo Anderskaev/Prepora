@@ -73,6 +73,20 @@
 		"existing": "Existing Categories",
 		"name_placeholder": "Category Name"
 	},
+	"control": {
+		"add": "Add Reminder",
+		"create": "Create Reminder",
+		"edit": "Edit Reminder",
+		"empty": {
+			"subtitle": "Add your first reminder",
+			"title": "No reminders yet"
+		},
+		"form": {
+			"date": "Date and Time",
+			"repeat": "Repeat",
+			"title_placeholder": "Reminder Title"
+		}
+	},
 	"form": {
 		"back": "Back",
 		"cancel": "Cancel",
@@ -134,5 +148,26 @@
 			"set": "Set PIN Code",
 			"title": "PIN Code"
 		}
+	},
+	"vault": {
+		"add": "Add Entry",
+		"categories": "Categories",
+		"count": "Entry Count",
+		"create": "Create Entry",
+		"edit": "Edit Entry",
+		"empty": {
+			"subtitle": "Add your first entry to the vault",
+			"title": "No entries yet"
+		},
+		"fields": "Fields",
+		"form": {
+			"add_field": "Add Field",
+			"field_label": "Field Label",
+			"field_value": "Field Value",
+			"fields": "Fields",
+			"sensitive": "Sensitive Data",
+			"title_placeholder": "Entry Title"
+		},
+		"not_found": "No entries found"
 	}
 }

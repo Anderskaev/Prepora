@@ -26,11 +26,11 @@ export class MainComponent {
   tabs = signal<{ label: string; icon: string; route: string }[]>([]);
   private buildTabs() {
       this.tabs.set([
-                { label: this.translate.instant('app.tabs.preparation.name'), icon: 'pi pi-shield', route: ''},
-                { label: this.translate.instant('app.tabs.scenarios.name'), icon: 'pi pi-sparkles', route: '/scenarios'},
-                { label: this.translate.instant('app.tabs.vault.name'), icon: 'pi pi-folder-open', route: '/vault'},                
+                { label: this.translate.instant('app.tabs.preparation.name'), icon: 'fa-solid fa-list-check', route: ''},
+                { label: this.translate.instant('app.tabs.scenarios.name'), icon: 'fa-solid fa-shield', route: '/scenarios'},
+                { label: this.translate.instant('app.tabs.vault.name'), icon: 'fa-solid fa-vault', route: '/vault'},                
                 { label: this.translate.instant('app.tabs.control.name'), icon: 'pi pi-calendar-clock', route: '/control'},
-                { label: this.translate.instant('app.tabs.settings.name'), icon: 'pi pi-cog', route: '/settings'},
+                { label: this.translate.instant('app.tabs.settings.name'), icon: 'fa-solid fa-gear', route: '/settings'},
       ]);
     }
   

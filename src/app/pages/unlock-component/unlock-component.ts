@@ -4,11 +4,13 @@ import { AuthService } from '../../services/auth-service';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PinService } from '../../services/pin-service';
 import { DataService } from '../../services/data-service';
+import { CardModule } from 'primeng/card';
+import { Button } from "primeng/button";
 
 
 @Component({
   selector: 'app-unlock-component',
-  imports: [ CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, Button],
   templateUrl: './unlock-component.html',
   styleUrl: './unlock-component.scss',
 })
