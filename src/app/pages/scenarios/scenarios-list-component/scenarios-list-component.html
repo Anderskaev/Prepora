@@ -2,9 +2,7 @@
 
   <!-- Заголовок -->
   <div class="flex justify-between items-center">
-    <span class="text-sm text-surface-400">
-      {{ scenarios().length }} {{ 'app.scenarios.count' | translate }}
-    </span>
+ 
     <div class="flex gap-2">
       <p-button
         icon="pi pi-tag"
@@ -12,7 +10,8 @@
         severity="secondary"
         [pTooltip]="'app.scenarios.manage_categories' | translate"
         (onClick)="showCatForm.set(true)" />
-      <p-button
+     
+        <p-button
         icon="pi pi-plus"
         [label]="'app.scenarios.add' | translate"
         size="small"
@@ -20,89 +19,110 @@
     </div>
   </div>
 
+<hr/>
+
   <!-- Пустое состояние -->
   @if (scenarios().length === 0) {
-    <div class="flex flex-col items-center gap-3 py-16 text-center">
-      <span class="text-5xl">📋</span>
-      <p class="font-semibold text-surface-700">
-        {{ 'app.scenarios.empty.title' | translate }}
-      </p>
-      <span class="text-sm text-surface-400">
-        {{ 'app.scenarios.empty.subtitle' | translate }}
-      </span>
-      <p-button
+
+
+    <div class="card"
+      style="background: rgb(255, 255, 255); border: 1.5px solid rgb(243, 244, 246); border-radius: 14px; padding: 14px 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div
+          style="width: 44px; height: 44px; background: rgb(255, 247, 237); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+          📋</div>
+        <div style="flex: 1 1 0%; min-width: 0px;">
+          <div style="font-weight: 800; font-size: 14px; color: rgb(17, 24, 39); margin-bottom: 3px;">{{ 'app.scenarios.empty.title' | translate }}</div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+
+              <span
+              style="font-size: 11px; color: rgb(156, 163, 175);">{{ 'app.scenarios.empty.subtitle' | translate }}</span></div>
+        </div>
+              <p-button
         [label]="'app.scenarios.add' | translate"
-        icon="pi pi-plus"
         (onClick)="openAdd()" />
+      </div>
     </div>
   }
+
+
+<p-accordion [value]="['0']" [multiple]="true">
 
   <!-- Список по категориям -->
-  @for (group of grouped(); track group.category?.id ?? 'uncategorized') {
-    <div class="flex flex-col gap-2">
+  @for (group of grouped(); track group.category?.id ?? 'uncategorized'; let i = $index) {
+    <p-accordion-panel [value]='i'>
 
-      <!-- Заголовок категории -->
-      @if (group.category) {
-        <div class="flex items-center gap-2 px-1">
-          <span>{{ group.category.icon }}</span>
-          <span class="text-xs font-bold uppercase tracking-wider text-surface-400">
-            {{ group.category.label }}
-          </span>
-          <span class="text-xs text-surface-400">({{ group.items.length }})</span>
-        </div>
-      }
+      <div class="flex flex-col gap-2"> <!-- Лист -->
+        <!-- Заголовок категории -->
+        
+          @if (group.category) {   
+            <p-accordion-header [style]="{'padding': '7px 14px', 'border-radius': '10px', 'font-size': '16px', 'font-weight': '800', 'background': group.category.color, 'color': 'rgb(255, 255, 255)', 'border': 'none', 'transition': '0.15s'}">
+                <div >{{ group.category.icon }} {{ group.category.label }} ({{ group.items.length }})</div>
+            </p-accordion-header>
 
-      <!-- Сценарии -->
-      @for (scenario of group.items; track scenario.id) {
-        <div
-          class="flex items-center gap-3 p-3 rounded-lg border border-surface-200
-                 dark:border-surface-700 cursor-pointer hover:bg-surface-50
-                 dark:hover:bg-surface-800 transition-colors"
-          (click)="openCard(scenario)">
+          } @else {
+            <p-accordion-header  style="padding: 7px 14px; border-radius: 10px; font-size: 16px; font-weight: 800; background: rgb(243, 244, 246); color: rgb(107, 114, 128); border: none; transition: 0.15s;">
+                <div>📁 {{ 'app.scenarios.uncategorized' | translate}}</div>
+            </p-accordion-header>                
+          }
+        
+        <p-accordion-content style="padding: 0;">
+          <!-- Сценарии -->
+          @for (scenario of group.items; track scenario.id) {
 
-          <!-- Иконка -->
-          <span class="text-2xl w-10 flex-shrink-0 text-center">
-            {{ scenario.icon }}
-          </span>
+       <div (click)="openCard(scenario)"
+            style="display:flex; gap: 12px; align-items: center; background: rgb(255, 255, 255); border: 1.5px solid rgb(243, 244, 246); border-radius: 14px; padding: 0 10px 0 10px; margin: 4px">
+              <div
+          style="width: 44px; height: 44px; background: rgb(255, 247, 237); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+                {{ scenario.icon }}
+              </div>
+          <div style="width: 100%;">
+                <div><p  style="font-family: 'Playfair Display'">{{ scenario.title }}</p></div>
+                <div style="display: flex; gap: 2px">                
+                  <p-tag
+                  [value]="'app.priority.' + scenario.priority | translate"
+                  [severity]="prioritySeverity(scenario.priority)"
+                  styleClass="text-xs" />
 
-          <!-- Контент -->
-          <div class="flex-1 min-w-0">
-            <p class="font-semibold text-sm truncate">{{ scenario.title }}</p>
-            <p class="text-xs text-surface-400 truncate mt-0.5">
-              {{ scenario.trigger }}
-            </p>
-            <p class="text-xs text-surface-300 mt-0.5">
-              {{ scenario.steps.length }} {{ 'app.scenarios.phases' | translate }}
-            </p>
+                  <p-tag
+                  [value]="('app.scenarios.phases' | translate)+': '+scenario.steps.length"
+                  icon="fa-solid fa-list-check"
+                  />
+
+                  @if(scenario.trigger) {
+                    <p-tag
+                    [value]="scenario.trigger"
+                    severity="success"
+                    icon="fa-solid fa-play"
+                    />                  
+                  }
+      
+                         
+                </div>
+                <div style="display: flex; justify-content: end; gap: 1px">
+                  <p-button
+                    icon="pi pi-pencil"
+                    [text]="true"
+                    size="small"
+                    severity="secondary"
+                    (onClick)="openEdit(scenario, $event)" />
+                  <p-button
+                    icon="pi pi-trash"
+                    [text]="true"
+                    size="small"
+                    severity="danger"
+                    (onClick)="deleteScenario(scenario.id, $event)" />
+                </div>
           </div>
+        </div>            
 
-          <!-- Приоритет + действия -->
-          <div class="flex flex-col items-end gap-2 flex-shrink-0">
-            <p-tag
-              [value]="'app.priority.' + scenario.priority | translate"
-              [severity]="prioritySeverity(scenario.priority)"
-              styleClass="text-xs" />
-            <div class="flex gap-1">
-              <p-button
-                icon="pi pi-pencil"
-                [text]="true"
-                size="small"
-                severity="secondary"
-                (onClick)="openEdit(scenario, $event)" />
-              <p-button
-                icon="pi pi-trash"
-                [text]="true"
-                size="small"
-                severity="danger"
-                (onClick)="deleteScenario(scenario.id, $event)" />
-            </div>
-          </div>
-
-        </div>
-      }
-    </div>
+          }
+        </p-accordion-content>
+      </div> <!-- Лист -->
+    </p-accordion-panel>    
   }
 
+  </p-accordion>
 </div>
 
 <!-- Диалог: форма сценария -->

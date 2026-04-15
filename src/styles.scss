@@ -1,6 +1,17 @@
-
 @import "primeicons/primeicons.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+
+
+body {
+    background: rgb(250, 250, 248);
+}
+
+.p-accordioncontent-content {
+  
+    background: none!important;
+    padding: 0!important;
+}
 
 .p-card {
     display: flex!important;
@@ -27,4 +38,10 @@
     display: flex;
     align-items: center;
     flex-direction: column;    
+    margin: 0 10px 0 10px!important;
+    padding: 5px 0 0 0!important;
+}
+
+.p-tabs {
+    padding: 12px 0 14px 0!important;
 }

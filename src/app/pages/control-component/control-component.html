@@ -1,13 +1,14 @@
-<!-- control.component.html -->
+<div style="margin-bottom: 20px;">
+    <div
+        style='font-family: "Playfair Display"; font-size: 24px; font-weight: 900; margin-bottom: 4px;'>
+        {{ 'app.tabs.control.title' | translate }}</div>
+    <div style='font-family: "Mulish"; font-size: 13px; color: rgb(156, 163, 175);'>{{ 'app.tabs.control.subtitle' | translate }}</div>
+</div>
+
 <div class="flex flex-col h-full">
   <div class="p-4 border-b border-surface-200 dark:border-surface-700
               flex justify-between items-start">
-    <div>
-      <p class="font-bold text-lg">{{ 'app.tabs.control.title' | translate }} 123</p>
-      <span class="text-sm text-surface-400">
-        {{ 'app.tabs.control.subtitle' | translate }}
-      </span>
-    </div>
+
     <p-button icon="pi pi-plus" [label]="'control.add' | translate"
       size="small" (onClick)="openAdd()" />
   </div>

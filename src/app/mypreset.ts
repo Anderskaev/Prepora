@@ -5,22 +5,22 @@ export const MyPreset = definePreset(Aura, {
     //Your customizations, see the following sections for examples
     semantic: {
         colorScheme: {
-            dark: {
+            light: {
                 primary: {
                     0: '#ffffff',
-                    50: '{rose.50}',
-                    100: '{rose.100}',
-                    200: '{rose.200}',
-                    300: '{rose.300}',
-                    400: '{rose.400}',
-                    500: '{rose.500}',
-                    600: '{rose.600}',
-                    700: '{rose.700}',
-                    800: '{rose.800}',
-                    900: '{rose.900}',
-                    950: '{rose.950}'
+                    50: '{orange.50}',
+                    100: '{orange.100}',
+                    200: '{orange.200}',
+                    300: '{orange.300}',
+                    400: '{orange.400}',
+                    500: '{orange.500}',
+                    600: '{orange.600}',
+                    700: '{orange.700}',
+                    800: '{orange.800}',
+                    900: '{orange.900}',
+                    950: '{orange.950}'
                 },
-                surface: {
+                /*surface: {
                     0: '#ffffff',
                     50: '{zinc.50}',
                     100: '{zinc.100}',
@@ -33,7 +33,7 @@ export const MyPreset = definePreset(Aura, {
                     800: '{zinc.800}',
                     900: '{zinc.900}',
                     950: '{zinc.950}'                    
-                }
+                }*/
             }            
         }
     }

@@ -1,5 +1,5 @@
 // features/scenarios/scenarios-form.component.ts
-import { Component, inject, input, output, OnInit, signal } from '@angular/core';
+import { Component, inject, input, output, OnInit, signal, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
@@ -72,8 +72,29 @@ export class ScenariosFormComponent implements OnInit {
     steps:    [{ phase: '', items: '' }],
   });
 
+
+  constructor() {
+  effect(() => {
+    const s = this.scenario(); // Следим за изменениями
+    if (s) {
+      this.form.set({
+        title:    s.title,
+        icon:     s.icon,
+        category: s.category,
+        priority: s.priority,
+        trigger:  s.trigger,
+        steps:    s.steps.map(step => ({
+          phase: step.phase,
+          items: step.items.join('\n'),
+          })),
+        });
+      }
+    });
+  }
+
+
   ngOnInit() {
-    const s = this.scenario();
+    /*const s = this.scenario();
     if (s) {
       this.form.set({
         title:    s.title,
@@ -86,7 +107,8 @@ export class ScenariosFormComponent implements OnInit {
           items: step.items.join('\n'),
         })),
       });
-    }
+    }*/
+
 
     this.buildPriorities();
     // Подписываемся на смену языка

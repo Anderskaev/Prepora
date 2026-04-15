@@ -13,10 +13,14 @@ import { DialogModule } from 'primeng/dialog';
 import { ScenariosFormComponent } from '../scenarios-form-component/scenarios-form-component';
 import { CategoryFormComponent } from '../category-form-component/category-form-component';
 
+import { AccordionModule } from 'primeng/accordion';
+import { BadgeModule } from 'primeng/badge';
+
 @Component({
   selector: 'app-scenarios-list',
   standalone: true,
-  imports: [TranslateModule, ButtonModule, TagModule, DialogModule, ScenariosFormComponent, CategoryFormComponent, TooltipModule],
+  imports: [TranslateModule, ButtonModule, TagModule, DialogModule, ScenariosFormComponent, 
+    CategoryFormComponent, TooltipModule, AccordionModule, BadgeModule],
   templateUrl: './scenarios-list-component.html',
 })
 export class ScenariosListComponent {
