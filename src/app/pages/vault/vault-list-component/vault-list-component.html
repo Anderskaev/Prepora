@@ -1,10 +1,7 @@
-<!-- vault-list.component.html -->
 <div class="p-4 flex flex-col gap-4">
-
+  <!-- Заголовок -->
   <div class="flex justify-between items-center">
-    <span class="text-sm text-surface-400">
-      {{ items().length }} {{ 'vault.count' | translate }}
-    </span>
+
     <div class="flex gap-2">
       <p-button icon="pi pi-tag" [text]="true" severity="secondary"
         (onClick)="showCatForm.set(true)" />
@@ -13,51 +10,90 @@
     </div>
   </div>
 
+    <!-- Пустое состояние -->
   @if (items().length === 0) {
-    <div class="flex flex-col items-center gap-3 py-16 text-center">
-      <span class="text-5xl">🔐</span>
-      <p class="font-semibold">{{ 'vault.empty.title' | translate }}</p>
-      <span class="text-sm text-surface-400">
-        {{ 'vault.empty.subtitle' | translate }}
-      </span>
-      <p-button [label]="'vault.add' | translate"
-        icon="pi pi-plus" (onClick)="openAdd()" />
+
+
+    <div class="card"
+      style="background: rgb(255, 255, 255); border: 1.5px solid rgb(243, 244, 246); border-radius: 14px; padding: 14px 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div
+          style="width: 44px; height: 44px; background: rgb(255, 247, 237); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+          🔐</div>
+        <div style="flex: 1 1 0%; min-width: 0px;">
+          <div style="font-weight: 800; font-size: 14px; color: rgb(17, 24, 39); margin-bottom: 3px;">{{ 'vault.empty.title' | translate }}</div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+
+              <span
+              style="font-size: 11px; color: rgb(156, 163, 175);">{{ 'vault.empty.subtitle' | translate }}</span></div>
+        </div>
+              <p-button
+        [label]="'vault.add' | translate"
+        (onClick)="openAdd()" />
+      </div>
     </div>
+
   }
 
-  @for (group of grouped(); track group.category?.id ?? 'none') {
-    <div class="flex flex-col gap-2">
-      @if (group.category) {
-        <div class="flex items-center gap-2 px-1">
-          <span>{{ group.category.icon }}</span>
-          <span class="text-xs font-bold uppercase tracking-wider text-surface-400">
-            {{ group.category.label }}
-          </span>
-        </div>
-      }
-      @for (item of group.items; track item.id) {
-        <div class="flex items-center gap-3 p-3 rounded-lg border
-                    border-surface-200 dark:border-surface-700 cursor-pointer
-                    hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors"
-             (click)="openCard(item)">
-          <span class="text-2xl w-10 text-center flex-shrink-0">🔒</span>
-          <div class="flex-1 min-w-0">
-            <p class="font-semibold text-sm truncate">{{ item.title }}</p>
-            <p class="text-xs text-surface-400 mt-0.5">
-              {{ item.fields.length }} {{ 'vault.fields' | translate }}
-            </p>
+  <p-accordion [value]="" [multiple]="true">
+
+  @for (group of grouped(); track group.category?.id ?? 'uncategorized';let i = $index) {
+    <p-accordion-panel [value]='i'>
+      <div class="flex flex-col gap-2">
+        <!-- Заголовок категории -->
+        
+          @if (group.category) {   
+            <p-accordion-header [style]="{'padding': '7px 14px', 'border-radius': '10px', 'font-size': '16px', 'font-weight': '800', 'background': group.category.color, 'color': 'rgb(255, 255, 255)', 'border': 'none', 'transition': '0.15s'}">
+                <div >{{ group.category.icon }} {{ group.category.label }} ({{ group.items.length }})</div>
+            </p-accordion-header>
+
+          } @else {
+            <p-accordion-header  style="padding: 7px 14px; border-radius: 10px; font-size: 16px; font-weight: 800; background: rgb(243, 244, 246); color: rgb(107, 114, 128); border: none; transition: 0.15s;">
+                <div>📁 {{ 'vault.uncategorized' | translate}}</div>
+            </p-accordion-header>                
+          }      
+      
+        <!--      @if (group.category) {
+            <div class="flex items-center gap-2 px-1">
+              <span>{{ group.category.icon }}</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-surface-400">
+                {{ group.category.label }}
+              </span>
+            </div>
+          } -->
+        <p-accordion-content style="padding: 0;">
+            @for (item of group.items; track item.id) {
+
+         <div  (click)="openCard(item)"
+            style="display:flex; gap: 12px; align-items: center; background: rgb(255, 255, 255); border: 1.5px solid rgb(243, 244, 246); border-radius: 14px; padding: 0 10px 0 10px; margin: 4px">
+              <div
+                  style="width: 44px; height: 44px; background: rgb(255, 247, 237); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+                🔒
+              </div>
+              <div style="width: 100%;">
+                  <div><p  style="font-family: 'Playfair Display'">{{ item.title }}</p></div>
+                  <div style="display: flex; gap: 2px; flex-wrap: wrap;"> 
+                    <p-tag
+                      [value]="('vault.fields' | translate)+': '+item.fields.length"
+                      icon="fa-solid fa-list-check"
+                    />
+                  </div>
+                  <div style="display: flex; justify-content: end; gap: 1px">
+                    <p-button icon="pi pi-pencil" [text]="true" size="small"
+                      severity="secondary" (onClick)="openEdit(item, $event)" />
+                    <p-button icon="pi pi-trash" [text]="true" size="small"
+                      severity="danger" (onClick)="delete(item.id, $event)" />
+                  </div>  
+            </div>
           </div>
-          <div class="flex gap-1">
-            <p-button icon="pi pi-pencil" [text]="true" size="small"
-              severity="secondary" (onClick)="openEdit(item, $event)" />
-            <p-button icon="pi pi-trash" [text]="true" size="small"
-              severity="danger" (onClick)="delete(item.id, $event)" />
-          </div>
-        </div>
-      }
-    </div>
+            }
+        </p-accordion-content>
+      </div>
+    </p-accordion-panel>
   }
+  </p-accordion>    
 </div>
+
 
 <p-dialog [(visible)]="showForm" [modal]="true" [draggable]="false"
   [style]="{ width: '95vw', maxWidth: '560px' }"

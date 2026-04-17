@@ -1,24 +1,36 @@
 
+
+
+
 <div class="unlock-screen">
   <p-card>
-      <h1>Prepora заблокировано</h1>
+    <div style="margin-bottom: 20px;">
+        <div
+            style='font-family: "Playfair Display"; font-size: 24px; font-weight: 900; margin-bottom: 4px;'>
+          {{ 'app.name' | translate }}</div>
+        <div style='font-family: "Mulish"; font-size: 13px; color: rgb(156, 163, 175);'>{{ 'app.locked' | translate }}</div>
+    </div>
 
       @if (hasPin()) {
         <!-- Режим ПИН -->
-        <input #pinInput
+         <p-inputotp (input)="onPinInput($event)" [(ngModel)]="pin_value" size="small" [mask]="true" />
+        <!--<input #pinInput
                type="password"
                inputmode="numeric"
                maxlength="6"
                placeholder="Введите ПИН"
-               (input)="onPinInput($event)" />
-               <br />
+               (input)="onPinInput($event)" /> -->
+               <div style="margin: 3px;"></div>
         <p-button (click)="switchToPassword()">Ввести пароль</p-button>
       } @else {
         <!-- Режим пароля -->
         <form [formGroup]="form" (ngSubmit)="unlockWithPassword()" class="p-card-content">
           <input formControlName="password"
+                 pSize="small"
+                 pInputText
                  type="password"
                  placeholder="Мастер-пароль" />
+                 <div style="margin: 3px;"></div>
           <p-button type="submit" [disabled]="loading()">
             {{ loading() ? 'Проверка...' : 'Войти' }}
           </p-button>

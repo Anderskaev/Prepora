@@ -1,5 +1,5 @@
 // features/vault/vault-form.component.ts
-import { Component, inject, input, output, OnInit, signal } from '@angular/core';
+import { Component, inject, input, output, OnInit, signal, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
@@ -18,7 +18,7 @@ import { VaultItem, VaultField } from '../../../models/app-models';
   ],
   templateUrl: './vault-form-component.html',
 })
-export class VaultFormComponent implements OnInit {
+export class VaultFormComponent {
   private data = inject(DataService);
 
   item      = input<VaultItem | null>(null);
@@ -31,13 +31,16 @@ export class VaultFormComponent implements OnInit {
   category = signal('');
   fields   = signal<VaultField[]>([{ label: '', value: '', sensitive: false }]);
 
-  ngOnInit() {
-    const v = this.item();
-    if (v) {
-      this.title.set(v.title);
-      this.category.set(v.category);
-      this.fields.set(v.fields.map(f => ({ ...f })));
-    }
+
+  constructor() {
+    effect(()=>{
+      const v = this.item();
+      if (v) {
+        this.title.set(v.title);
+        this.category.set(v.category);
+        this.fields.set(v.fields.map(f => ({ ...f })));
+      }
+    });
   }
 
   addField() {

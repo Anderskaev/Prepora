@@ -19,7 +19,7 @@
     </div>
   </div>
 
-<hr/>
+  <hr/>
 
   <!-- Пустое состояние -->
   @if (scenarios().length === 0) {
@@ -46,7 +46,7 @@
   }
 
 
-<p-accordion [value]="['0']" [multiple]="true">
+  <p-accordion [value]="['0']" [multiple]="true">
 
   <!-- Список по категориям -->
   @for (group of grouped(); track group.category?.id ?? 'uncategorized'; let i = $index) {
@@ -78,7 +78,7 @@
               </div>
           <div style="width: 100%;">
                 <div><p  style="font-family: 'Playfair Display'">{{ scenario.title }}</p></div>
-                <div style="display: flex; gap: 2px">                
+                <div style="display: flex; gap: 2px; flex-wrap: wrap;">                
                   <p-tag
                   [value]="'app.priority.' + scenario.priority | translate"
                   [severity]="prioritySeverity(scenario.priority)"

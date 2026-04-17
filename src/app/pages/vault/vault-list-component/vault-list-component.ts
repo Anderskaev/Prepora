@@ -9,6 +9,8 @@ import { VaultItem } from '../../../models/app-models';
 //import { VaultFormComponent } from '../vault-form-component/vault-form-component';
 import { VaultCategoryComponent } from '../vault-category-component/vault-category-component';
 import { VaultFormComponent } from "../vault-form-component/vault-form-component";
+import { AccordionModule } from "primeng/accordion";
+import { Tag } from "primeng/tag";
 
 @Component({
   selector: 'app-vault-list',
@@ -16,7 +18,9 @@ import { VaultFormComponent } from "../vault-form-component/vault-form-component
   imports: [
     TranslateModule, ButtonModule, DialogModule,
     VaultCategoryComponent,
-    VaultFormComponent
+    VaultFormComponent,
+    AccordionModule,
+    Tag
 ],
   templateUrl: './vault-list-component.html',
 })
