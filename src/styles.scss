@@ -45,3 +45,14 @@ body {
 .p-tabs {
     padding: 12px 0 14px 0!important;
 }
+
+.p-dialog-content {
+    overflow-y: visible!important;
+}
+
+.field {
+    border: solid 1px lightgray;
+    padding: 2px;
+    margin: 2px;
+    border-radius: 10px;
+}

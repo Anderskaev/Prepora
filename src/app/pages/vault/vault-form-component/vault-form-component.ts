@@ -31,6 +31,7 @@ export class VaultFormComponent {
   category = signal('');
   fields   = signal<VaultField[]>([{ label: '', value: '', sensitive: false }]);
 
+  
 
   constructor() {
     effect(()=>{
@@ -39,10 +40,13 @@ export class VaultFormComponent {
         this.title.set(v.title);
         this.category.set(v.category);
         this.fields.set(v.fields.map(f => ({ ...f })));
+      } else {
+       this.fields.set([{ label: '', value: '', sensitive: false }]); 
       }
     });
   }
 
+  
   addField() {
     this.fields.update(f => [...f, { label: '', value: '', sensitive: false }]);
   }
@@ -60,6 +64,15 @@ export class VaultFormComponent {
   isValid(): boolean {
     return this.title().trim().length > 0 &&
            this.fields().every(f => f.label.trim().length > 0);
+  }
+
+  cancel(){
+    this.fields.set([{ label: '', value: '', sensitive: false }]); 
+    this.cancelled.emit()
+  }
+
+  onDialogHide() {
+    this.cancel()
   }
 
   save() {

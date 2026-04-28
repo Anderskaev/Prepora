@@ -16,12 +16,12 @@ interface FormStep {
 }
 
 interface FormData {
-  title:    string;
-  icon:     string;
+  title: string;
+  icon: string;
   category: string;
   priority: Scenario['priority'];
-  trigger:  string;
-  steps:    FormStep[];
+  trigger: string;
+  steps: FormStep[];
 }
 
 @Component({
@@ -37,8 +37,8 @@ export class ScenariosFormComponent implements OnInit {
   private data = inject(DataService);
   private translate = inject(TranslateService);
   // Inputs / Outputs
-  scenario  = input<Scenario | null>(null);
-  saved     = output<void>();
+  scenario = input<Scenario | null>(null);
+  saved = output<void>();
   cancelled = output<void>();
 
   categories = this.data.scenarioCategories;
@@ -48,14 +48,14 @@ export class ScenariosFormComponent implements OnInit {
     { label: 'scenarios.priority.IMPORTANT',    value: 'IMPORTANT' },
     { label: 'scenarios.priority.STANDARD', value: 'STANDARD'  },
   ];*/
-  
+
   private langSub?: Subscription;
   priorities = signal<{ label: string; value: Scenario['priority'] }[]>([]);
   private buildPriorities() {
     this.priorities.set([
-      { label: this.translate.instant('app.priority.CRITICAL'),  value: 'CRITICAL'  },
+      { label: this.translate.instant('app.priority.CRITICAL'), value: 'CRITICAL' },
       { label: this.translate.instant('app.priority.IMPORTANT'), value: 'IMPORTANT' },
-      { label: this.translate.instant('app.priority.STANDARD'),  value: 'STANDARD'  },
+      { label: this.translate.instant('app.priority.STANDARD'), value: 'STANDARD' },
     ]);
   }
 
@@ -64,28 +64,35 @@ export class ScenariosFormComponent implements OnInit {
   }
 
   form = signal<FormData>({
-    title:    '',
-    icon:     '📋',
+    title: '',
+    icon: '📋',
     category: '',
     priority: 'STANDARD',
-    trigger:  '',
-    steps:    [{ phase: '', items: '' }],
+    trigger: '',
+    steps: [{ phase: '', items: '' }],
   });
 
+  onHide() {
+    this.form.update(f => ({
+      ...f,
+      steps: [{ phase: '', items: '' }]
+    }));
+    this.cancelled.emit();
+  }
 
   constructor() {
-  effect(() => {
-    const s = this.scenario(); // Следим за изменениями
-    if (s) {
-      this.form.set({
-        title:    s.title,
-        icon:     s.icon,
-        category: s.category,
-        priority: s.priority,
-        trigger:  s.trigger,
-        steps:    s.steps.map(step => ({
-          phase: step.phase,
-          items: step.items.join('\n'),
+    effect(() => {
+      const s = this.scenario(); // Следим за изменениями
+      if (s) {
+        this.form.set({
+          title: s.title,
+          icon: s.icon,
+          category: s.category,
+          priority: s.priority,
+          trigger: s.trigger,
+          steps: s.steps.map(step => ({
+            phase: step.phase,
+            items: step.items.join('\n'),
           })),
         });
       }
@@ -94,28 +101,14 @@ export class ScenariosFormComponent implements OnInit {
 
 
   ngOnInit() {
-    /*const s = this.scenario();
-    if (s) {
-      this.form.set({
-        title:    s.title,
-        icon:     s.icon,
-        category: s.category,
-        priority: s.priority,
-        trigger:  s.trigger,
-        steps:    s.steps.map(step => ({
-          phase: step.phase,
-          items: step.items.join('\n'),
-        })),
-      });
-    }*/
 
 
     this.buildPriorities();
     // Подписываемся на смену языка
     this.langSub = this.translate.onLangChange.subscribe(() => {
       this.buildPriorities();
-    });    
-    
+    });
+
   }
 
   // Мутация формы
@@ -162,20 +155,20 @@ export class ScenariosFormComponent implements OnInit {
     if (existing) {
       this.data.updateScenario({
         ...existing,
-        title:    f.title.trim(),
-        icon:     f.icon,
+        title: f.title.trim(),
+        icon: f.icon,
         category: f.category,
         priority: f.priority,
-        trigger:  f.trigger.trim(),
+        trigger: f.trigger.trim(),
         steps,
       });
     } else {
       this.data.addScenario({
-        title:    f.title.trim(),
-        icon:     f.icon,
+        title: f.title.trim(),
+        icon: f.icon,
         category: f.category,
         priority: f.priority,
-        trigger:  f.trigger.trim(),
+        trigger: f.trigger.trim(),
         steps,
       });
     }
@@ -184,6 +177,6 @@ export class ScenariosFormComponent implements OnInit {
   }
 
   cancel() {
-    this.cancelled.emit();
+    this.onHide();
   }
 }

@@ -132,8 +132,11 @@
   [draggable]="false"
   [style]="{ width: '95vw', maxWidth: '560px' }"
   [header]="(editScenario() ? 'app.scenarios.edit' : 'app.scenarios.create') | translate"
-  [closeOnEscape]="true">
+  [closeOnEscape]="true"
+  (onHide)="scenarioForm.onHide()"
+  >
   <app-scenarios-form-component
+    #scenarioForm
     [scenario]="editScenario()"
     (saved)="onFormSaved()"
     (cancelled)="onFormCancelled()" />

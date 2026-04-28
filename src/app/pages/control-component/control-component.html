@@ -1,88 +1,100 @@
 <div style="margin-bottom: 20px;">
-    <div
-        style='font-family: "Playfair Display"; font-size: 24px; font-weight: 900; margin-bottom: 4px;'>
-        {{ 'app.tabs.control.title' | translate }}</div>
-    <div style='font-family: "Mulish"; font-size: 13px; color: rgb(156, 163, 175);'>{{ 'app.tabs.control.subtitle' | translate }}</div>
+  <div style='font-family: "Playfair Display"; font-size: 24px; font-weight: 900; margin-bottom: 4px;'>
+    {{ 'app.tabs.control.title' | translate }}</div>
+  <div style='font-family: "Mulish"; font-size: 13px; color: rgb(156, 163, 175);'>{{ 'app.tabs.control.subtitle' |
+    translate }}</div>
 </div>
 
 <div class="flex flex-col h-full">
   <div class="p-4 border-b border-surface-200 dark:border-surface-700
               flex justify-between items-start">
 
-    <p-button icon="pi pi-plus" [label]="'control.add' | translate"
-      size="small" (onClick)="openAdd()" />
+    <p-button icon="pi pi-plus" [label]="'control.add' | translate" size="small" (onClick)="openAdd()" />
   </div>
 
   <div class="flex-1 overflow-auto p-4 flex flex-col gap-3">
 
+    <!-- пистой лист -->
+
     @if (reminders().length === 0) {
-      <div class="flex flex-col items-center gap-3 py-16 text-center">
-        <span class="text-5xl">🔔</span>
-        <p class="font-semibold">{{ 'control.empty.title' | translate }}</p>
-        <span class="text-sm text-surface-400">
-          {{ 'control.empty.subtitle' | translate }}
-        </span>
-        <p-button [label]="'control.add' | translate"
-          icon="pi pi-plus" (onClick)="openAdd()" />
+    <div class="card"
+      style="background: rgb(255, 255, 255); border: 1.5px solid rgb(243, 244, 246); border-radius: 14px; padding: 14px 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div
+          style="width: 44px; height: 44px; background: rgb(255, 247, 237); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+          🔔</div>
+        <div style="flex: 1 1 0%; min-width: 0px;">
+          <div style="font-weight: 800; font-size: 14px; color: rgb(17, 24, 39); margin-bottom: 3px;">{{
+            'control.empty.title' | translate }}</div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+
+            <span style="font-size: 11px; color: rgb(156, 163, 175);">{{ 'control.empty.subtitle' | translate }}</span>
+          </div>
+        </div>
+        <p-button [label]="'control.add' | translate" (onClick)="openAdd()" />
       </div>
+    </div>
+
     }
 
     @for (r of sorted(); track r.id) {
-      <div class="flex items-center gap-3 p-3 rounded-lg border
-                  border-surface-200 dark:border-surface-700">
-        <div class="flex-1 min-w-0">
-          <p class="font-semibold text-sm truncate">{{ r.title }}</p>
-          <div class="flex items-center gap-2 mt-1">
-            <p-tag
-              [value]="formatDate(r.date)"
-              [severity]="tagSeverity(r.date)"
-              styleClass="text-xs" />
-            @if (r.repeat !== 'NONE') {
-              <span class="text-xs text-surface-400">
-                🔁 {{ 'control.repeat.' + r.repeat | translate }}
-              </span>
-            }
-          </div>
+    <div
+      style="display:flex; gap: 12px; align-items: center; background: rgb(255, 255, 255); border: 1.5px solid rgb(243, 244, 246); border-radius: 14px; padding: 0 10px 0 10px; margin: 4px">
+      <div
+        style="width: 44px; height: 44px; background: rgb(255, 247, 237); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+        🔔
+      </div>
+      <div style="width: 100%;">
+        <div>
+          <p style="font-family: 'Playfair Display'">{{ r.title }}</p>
         </div>
-        <div class="flex gap-1">
-          <p-button icon="pi pi-pencil" [text]="true" size="small"
-            severity="secondary" (onClick)="openEdit(r)" />
-          <p-button icon="pi pi-trash" [text]="true" size="small"
-            severity="danger" (onClick)="delete(r.id)" />
+        <div style="display: flex; gap: 2px; flex-wrap: wrap;"> 
+          <p-tag [value]="formatDate(r.date)" [severity]="tagSeverity(r.date)" styleClass="text-xs" />
+          
+          @if (r.repeat !== 'NONE') {
+        <p-tag severity="info">
+          <span class="text-xs text-surface-400">
+            <i class="pi pi-refresh"></i> {{ 'app.repeat.' + r.repeat | translate }}
+          </span>
+      </p-tag>          
+          }          
+
+        </div>
+        <div style="display: flex; justify-content: end; gap: 1px">
+          <p-button icon="pi pi-pencil" [text]="true" size="small" severity="secondary" (onClick)="openEdit(r)" />
+          <p-button icon="pi pi-trash" [text]="true" size="small" severity="danger" (onClick)="delete(r.id)" />
         </div>
       </div>
+
+    </div>
+
     }
+
   </div>
 </div>
 
-<p-dialog [(visible)]="showForm" [modal]="true" [draggable]="false"
-  [style]="{ width: '95vw', maxWidth: '480px' }"
+<p-dialog [(visible)]="showForm" [modal]="true" [draggable]="false" [style]="{ width: '95vw', maxWidth: '480px' }"
   [header]="(editItem() ? 'control.edit' : 'control.create') | translate">
   <div class="flex flex-col gap-4 pb-2">
 
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1" style="margin: 5px">
       <label class="text-xs text-surface-400">{{ 'form.title' | translate }} *</label>
-      <input pInputText [ngModel]="formTitle()"
-        (ngModelChange)="formTitle.set($event)"
+      <input pInputText [ngModel]="formTitle()" (ngModelChange)="formTitle.set($event)"
         [placeholder]="'control.form.title_placeholder' | translate" />
     </div>
 
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1" style="margin: 5px">
       <label class="text-xs text-surface-400">{{ 'control.form.date' | translate }} *</label>
-      <p-datepicker [ngModel]="formDate()"
-        (ngModelChange)="formDate.set($event)"
-        
-        dateFormat="dd.mm.yy"
+      <p-datepicker [ngModel]="formDate()" (ngModelChange)="formDate.set($event)" dateFormat="dd.mm.yy"
         styleClass="w-full" />
     </div>
 
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1" style="margin: 5px">
       <label class="text-xs text-surface-400">
         {{ 'control.form.repeat' | translate }}
       </label>
-      <p-select [options]="repeatOptions" optionValue="value"
-        [ngModel]="formRepeat()" (ngModelChange)="formRepeat.set($event)"
-        styleClass="w-full">
+      <p-select [options]="repeatOptions" optionValue="value" [ngModel]="formRepeat()"
+        (ngModelChange)="formRepeat.set($event)" styleClass="w-full">
         <ng-template pTemplate="selectedItem" let-item>
           {{ item.labelKey | translate }}
         </ng-template>
@@ -94,10 +106,9 @@
 
     <div class="flex justify-end gap-2 pt-2 border-t border-surface-200
                 dark:border-surface-700">
-      <p-button [label]="'form.cancel' | translate" severity="secondary"
-        [text]="true" (onClick)="showForm.set(false)" />
-      <p-button [label]="'form.save' | translate" icon="pi pi-check"
-        [disabled]="!formTitle().trim() || !formDate()"
+      <p-button [label]="'form.cancel' | translate" severity="secondary" [text]="true"
+        (onClick)="showForm.set(false)" />
+      <p-button [label]="'form.save' | translate" icon="pi pi-check" [disabled]="!formTitle().trim() || !formDate()"
         (onClick)="save()" />
     </div>
   </div>

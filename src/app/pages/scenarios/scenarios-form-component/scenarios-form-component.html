@@ -3,7 +3,7 @@
 
   <!-- Иконка + название -->
   <div class="flex gap-3">
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1" style="display: none">
       <label class="text-xs text-surface-400">
         {{ 'form.icon' | translate }}
       </label>
@@ -14,7 +14,8 @@
         class="w-14 text-center text-xl"
         maxlength="2" />
     </div>
-    <div class="flex flex-col gap-1 flex-1">
+   
+    <div class="flex flex-col gap-1 flex-1" style="margin: 5px">
       <label class="text-xs text-surface-400">
         {{ 'form.title' | translate }} *
       </label>
@@ -28,7 +29,7 @@
 
   <!-- Категория + приоритет -->
   <div class="flex gap-3">
-    <div class="flex flex-col gap-1 flex-1">
+    <div class="flex flex-col gap-1 flex-1" style="margin: 5px">
       <label class="text-xs text-surface-400">
         {{ 'form.category' | translate }}
       </label>
@@ -46,7 +47,7 @@
         </ng-template>
       </p-select>
     </div>
-    <div class="flex flex-col gap-1 w-36">
+    <div class="flex flex-col gap-1 w-36" style="margin: 5px">
       <label class="text-xs text-surface-400">
         {{ 'form.priority' | translate }}
       </label>
@@ -61,7 +62,7 @@
   </div>
 
   <!-- Триггер -->
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-1" style="margin: 5px">
     <label class="text-xs text-surface-400">
       {{ 'app.scenarios.form.trigger' | translate }}
     </label>
@@ -75,9 +76,11 @@
   <!-- Фазы -->
   <div class="flex flex-col gap-2">
     <div class="flex justify-between items-center">
+    
       <label class="text-xs font-bold uppercase tracking-wider text-surface-400">
         {{ 'app.scenarios.form.phases' | translate }}
       </label>
+
       <p-button
         icon="pi pi-plus"
         [label]="'app.scenarios.form.add_phase' | translate"
@@ -88,11 +91,13 @@
 
     @for (step of form().steps; track $index) {
       <div class="border border-surface-200 dark:border-surface-700 rounded-lg p-3
-                  flex flex-col gap-2">
+                  flex flex-col gap-2" style="display: flex; border-bottom: solid 1px lightgray;
+    margin-bottom: 5px;">
         <div class="flex justify-between items-center">
           <span class="text-xs text-surface-400">
             {{ 'app.scenarios.form.phase' | translate }} {{ $index + 1 }}
           </span>
+         
           @if (form().steps.length > 1) {
             <p-button
               icon="pi pi-times"
@@ -101,17 +106,20 @@
               size="small"
               (onClick)="removeStep($index)" />
           }
-        </div>
 
         <!-- Название фазы -->
         <input
           pInputText
           [ngModel]="step.phase"
           (ngModelChange)="updateStep($index, 'phase', $event)"
-          [placeholder]="'app.scenarios.form.phase_name' | translate" />
+          [placeholder]="'app.scenarios.form.phase_name' | translate" style="margin-right: 5px"/>
+
+        </div>
+
+
 
         <!-- Шаги -->
-        <textarea
+        <textarea style="margin-bottom: 2px"
           pTextarea
           [ngModel]="step.items"
           (ngModelChange)="updateStep($index, 'items', $event)"
@@ -120,11 +128,14 @@
           rows="3"
           class="w-full text-sm">
         </textarea>
-        <span class="text-xs text-surface-300">
-          {{ 'app.scenarios.form.steps_hint' | translate }}
-        </span>
+        
       </div>
     }
+        <div style="margin: 5px">
+          <span class="text-xs text-surface-300">
+          {{ 'app.scenarios.form.steps_hint' | translate }}
+        </span>
+        </div>    
   </div>
 
   <!-- Кнопки -->
